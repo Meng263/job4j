@@ -1,4 +1,4 @@
-package ru.job4j.calculate;
+package chapter001.scr.main.java.ru.job4j.calculate;
 /**
 *Calculate
 *
@@ -10,8 +10,7 @@ public class Calculate {
 	/**
 	*@author Oleg Sivakov (Meng263@gmail.com)
 	*Точка входа в программу
-	*@param arg -arg // передает массив строк который мы указываем при запуске, например из командной строки 
-	*@return void
+	*@param args -args // передает массив строк который мы указываем при запуске, например из командной строки 	
 	*/
 	public static void main(String[] args) {
 		
