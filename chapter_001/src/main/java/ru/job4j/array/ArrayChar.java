@@ -3,9 +3,13 @@ package ru.job4j.array;
 /**
  * Обертка над строкой.
  */
-//public class ArrayChar {
- /**   private char[] data;
+public class ArrayChar {
+    private char[] data;
 
+    /**
+     *
+     * @param line Слово, которую будем проверять
+     */
     public ArrayChar(String line) {
         this.data = line.toCharArray();
     }
@@ -15,14 +19,15 @@ package ru.job4j.array;
      * @param prefix префикс.
      * @return если слово начинается с префикса
      */
-  //  public boolean startWith(String prefix) {
- //       boolean result = true;
-  //      char[] value = prefix.toCharArray();
-     //   for (int i = 0; i < value.length; i++) {
+    public boolean startWith(String prefix) {
+        boolean result = true;
+      //  char[] value = prefix.toCharArray();
+        for (int i = 0; i < prefix.length(); i++) {
 
-  ///      }
-
-      //  }
-    //    return result;
-   // }
-//}/*
+            if (data[i] != prefix.charAt(i)) {
+                result = false; break;
+            }
+        }
+        return result;
+    }
+}
