@@ -8,7 +8,7 @@ public class ArrayChar {
 
     /**
      *
-     * @param line Слово, которую будем проверять
+     * @param line Слово, которое будем проверять
      */
     public ArrayChar(String line) {
         this.data = line.toCharArray();
