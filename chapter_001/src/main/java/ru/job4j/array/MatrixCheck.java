@@ -13,19 +13,16 @@ public class MatrixCheck {
         boolean result = true;
         boolean firstDiago = data[0][0]; // Первый элемент первой диагонали
         boolean secondDiago = data[data.length - 1][0]; // Первый элемент второй диагонали
+        int d1 = 0; //счетчик 1 диагонали
+        int d2 = data.length - 1; //счетчик 2 диагонали
         for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                if ((i == j) && (data[i][j] != firstDiago)) { // Проверяем 1 диагональ
-                        result = false;
-                        break;
-                    }
-                if (((i + j) == data.length - 1) && (data[i][j] != secondDiago)){ // Проверяем 2 диагональ
-                    result = false;
-                    break;
-                }
-
+            if ((firstDiago != data[i][d1]) || (secondDiago != data[i][d2])) {
+                result = false;
+                break;
             }
-        }
+            d1++;
+            d2--;
+            }
         return result;
     }
 }
