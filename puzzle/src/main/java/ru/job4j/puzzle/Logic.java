@@ -84,7 +84,7 @@ public class Logic {
                 if (table[j][i] == 1) colomnCount++;
                 if ((rowCount == size) || (colomnCount == size)) {
                     result = true;
-                    break;
+                   return result;
                 }
             }
             rowCount = 0;
