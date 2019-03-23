@@ -82,10 +82,11 @@ public class Logic {
             for (int j = 0; j < size; j++) {
                 if (table[i][j] == 1) rowCount++;
                 if (table[j][i] == 1) colomnCount++;
-                if ((rowCount == size) || (colomnCount == size)) {
-                    result = true;
-                   return result;
+
                 }
+            if ((rowCount == size) || (colomnCount == size)) {
+                result = true;
+                break;
             }
             rowCount = 0;
             colomnCount = 0;
