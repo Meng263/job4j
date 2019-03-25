@@ -19,4 +19,7 @@ public class Matrix {
 
         return table;
     }
+
+    public static class DeduplicateArrays {
+    }
 }
