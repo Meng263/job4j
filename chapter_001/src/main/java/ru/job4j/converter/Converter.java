@@ -7,6 +7,7 @@ public class Converter {
 
     /**
      * Конвертируем рубли в евро.
+     *
      * @param value рубли.
      * @return Евро.
      */
@@ -16,6 +17,7 @@ public class Converter {
 
     /**
      * Конвертируем рубли в доллары.
+     *
      * @param value рубли.
      * @return Доллары
      */
@@ -25,6 +27,7 @@ public class Converter {
 
     /**
      * Конвертируем Евро в рубли.
+     *
      * @param value Евро.
      * @return Рубли
      */
@@ -34,12 +37,11 @@ public class Converter {
 
     /**
      * Конвертируем Доллары в рубли.
+     *
      * @param value Доллары.
      * @return Рубли
      */
     public int dollarToRuble(int value) {
         return value * 60;
     }
-
-
 }

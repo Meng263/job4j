@@ -14,21 +14,20 @@ public class ArrayDuplicate {
      */
     public String[] remove(String[] array){
 
-        for (int i = array.length - 1; i > 0; i--) { // дубликаты заменяем на пустые строки
+        for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (array[i].equals(array[j])){
                     array[j] = "";
                 }
             }
         }
-        Arrays.sort(array, Collections.reverseOrder()); // сортируем по убыванию (чтобы пустые строки остались в конце массива)
-
-        int newLength = 0;
-        for (int i = 0; i < array.length; i++) { // вычисляем новыую длину массива без дубликатов
+        Arrays.sort(array, Collections.reverseOrder());
+        int length = 0;
+        for (int i = 0; i < array.length; i++) {
             if (array[i].equals("")){
-                newLength = i;
+                length = i;
                 break;
             }
         }
-    return Arrays.copyOf(array, newLength);}
+    return Arrays.copyOf(array, length);}
 }

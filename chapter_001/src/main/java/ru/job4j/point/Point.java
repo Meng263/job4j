@@ -5,7 +5,6 @@ package ru.job4j.point;
  */
 public class Point {
     /**
-     *
      * @param x1 координата оси абсцисс 1 точки
      * @param y1 координата оси ординат 1 точки
      * @param x2 координата оси абсцисс 2 точки

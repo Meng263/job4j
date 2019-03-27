@@ -7,8 +7,7 @@ package ru.job4j.calculator;
 public class Calculator {
 
     /**
-     *
-     * @param first - первый аргумент
+     * @param first  - первый аргумент
      * @param second - второй аргумент
      * @return - возвращает сумму
      */
@@ -17,8 +16,7 @@ public class Calculator {
     }
 
     /**
-     *
-     * @param first - первый аргумент
+     * @param first  - первый аргумент
      * @param second - второй аргумент
      * @return - возвращает разность
      */
@@ -27,8 +25,7 @@ public class Calculator {
     }
 
     /**
-     *
-     * @param first - первый аргумент
+     * @param first  - первый аргумент
      * @param second - второй аргумент
      * @return - возвращает произведение
      */
@@ -37,8 +34,7 @@ public class Calculator {
     }
 
     /**
-     *
-     * @param first - первый аргумент
+     * @param first  - первый аргумент
      * @param second - второй аргумент
      * @return - возвращает частное
      */

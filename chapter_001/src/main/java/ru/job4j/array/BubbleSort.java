@@ -9,7 +9,7 @@ public class BubbleSort {
      * @return отсортированный массив
      */
     public int[] sortBubble(int[] mas){
-        int tmp = 0;
+        int tmp;
         for (int i = mas.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (mas[j] > mas[j + 1]){

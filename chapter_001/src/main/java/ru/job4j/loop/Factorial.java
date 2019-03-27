@@ -17,6 +17,5 @@ public class Factorial {
             result = result * i;
         }
         return result;
-
     }
 }
