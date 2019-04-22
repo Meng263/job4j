@@ -1,6 +1,8 @@
 package ru.job4j.tracker;
+import java.util.Random;
 
 /**
+ * Трекер заявок
  * @version $Id$
  * @since 0.1
  */
@@ -8,12 +10,27 @@ public class Tracker {
     /**
      * Массив для хранение заявок.
      */
-    public final Item[] items = new Item[100];
+    private final Item[] items = new Item[100];
 
     /**
      * Указатель ячейки для новой заявки.
      */
     private int position = 0;
+
+    /**
+     * Метод определяет индекс элемента по его id
+     *
+     * @param id id
+     * @return индекс, в случае если елемента не найден, возвращает -1
+     */
+    int indexOf(String id) {
+        int result = -1;
+        for (int i = 0; i < items.length; i++) {
+            if ((items[i] != null) && (id.equals(items[i].getId())))
+                result = i;
+        }
+        return result;
+    }
 
     /**
      * Метод реализаущий добавление заявки в хранилище
@@ -33,7 +50,8 @@ public class Tracker {
      * @return Уникальный ключ.
      */
     private String generateId() {
-        return "" + (int) Math.random() * 100;
+        final Random random = new Random();
+        return "" + random.nextInt();
     }
 
     /**
@@ -44,13 +62,10 @@ public class Tracker {
      * @return true, если элемент заменен
      */
     public boolean replace(String id, Item item) {
-        int k = 0;
-        for (Item i : items) {
-            if (i.getId().equals(id)) {
-                items[k] = item;
-                return true;
-            }
-            k++;
+        int index = indexOf(id);
+        if (index != -1) {
+            items[index] = item;
+            return true;
         }
         return false;
     }
@@ -62,20 +77,12 @@ public class Tracker {
      * @return true, если удаление произошло
      */
     public boolean delete(String id) {
-        int k = 0;
-        boolean bool = false;
-        for (Item i : items) {
-            if (id.equals(i.getId())) {
-                bool = true;
-                break;
-            }
-            k++;
+        int index = indexOf(id);
+        if (index != -1) {
+            System.arraycopy(items, index + 1, items, index, items.length - index - 1);
+            return true;
         }
-        if (bool) {
-
-            System.arraycopy(items, k + 1, items, k, items.length - k - 1);
-        }
-        return bool;
+        return false;
     }
 
     /**
@@ -88,10 +95,11 @@ public class Tracker {
         int k = 0;
         for (Item i : items)
             if (i != null) k++;
-        Item[] array = new Item[k + 1];
+        Item[] array = new Item[k];
         k = 0;
         for (Item i : items) {
-            array[k++] = i;
+            if (i != null)
+                array[k++] = i;
         }
         return array;
     }
@@ -109,7 +117,7 @@ public class Tracker {
                 k++;
             }
         }
-        Item[] array = new Item[k+1];
+        Item[] array = new Item[k + 1];
         k = 0;
         for (int i = 0; i < items.length; i++) {
             if ((items[i] != null) && (key.equals(items[i].getName()))) {
@@ -119,11 +127,24 @@ public class Tracker {
         return array;
     }
 
+    /**
+     * Метод проверяет в цикле все элементы массива items, сравнивая id
+     * @param id уникальный идентификатор
+     * @return искомый элемент, имеющий уникальный id
+     */
     public Item findById(String id) {
         for (int i = 0; i < items.length; i++) {
             if (items[i].getId().equals(id)) return items[i];
         }
         return null;
+    }
+
+    /**
+     * Метод присваивает null элементу приватного массива items(необходимо для теста)
+     * @param id уникальный идентификатор
+     */
+    public void setNull(String id){
+        items[indexOf(id)] = null;
     }
 
 
