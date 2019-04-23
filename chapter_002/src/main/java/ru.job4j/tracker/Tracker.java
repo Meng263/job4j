@@ -1,8 +1,11 @@
 package ru.job4j.tracker;
+
+import java.util.Arrays;
 import java.util.Random;
 
 /**
  * Трекер заявок
+ *
  * @version $Id$
  * @since 0.1
  */
@@ -21,11 +24,11 @@ public class Tracker {
      * Метод определяет индекс элемента по его id
      *
      * @param id id
-     * @return индекс, в случае если елемента не найден, возвращает -1
+     * @return индекс, в случае если элемент не найден, возвращает -1
      */
     int indexOf(String id) {
         int result = -1;
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < position; i++) {
             if ((items[i] != null) && (id.equals(items[i].getId())))
                 result = i;
         }
@@ -65,6 +68,7 @@ public class Tracker {
         int index = indexOf(id);
         if (index != -1) {
             items[index] = item;
+            item.setId(id);
             return true;
         }
         return false;
@@ -80,6 +84,7 @@ public class Tracker {
         int index = indexOf(id);
         if (index != -1) {
             System.arraycopy(items, index + 1, items, index, items.length - index - 1);
+            position--;
             return true;
         }
         return false;
@@ -87,21 +92,11 @@ public class Tracker {
 
     /**
      * Метод  возвращает копию массива this.items без null элементов
-     * сначала вычисляет размер возвращаемого массива, затем заполняет его
      *
      * @return массив
      */
     public Item[] findAll() {
-        int k = 0;
-        for (Item i : items)
-            if (i != null) k++;
-        Item[] array = new Item[k];
-        k = 0;
-        for (Item i : items) {
-            if (i != null)
-                array[k++] = i;
-        }
-        return array;
+        return Arrays.copyOf(items, position);
     }
 
     /**
@@ -111,24 +106,19 @@ public class Tracker {
      * @return результируюй массив, содержащий элементы с искомым name
      */
     public Item[] findByName(String key) {
+        Item[] array = new Item[position];
         int k = 0;
-        for (int i = 0; i < items.length; i++) {
-            if ((items[i] != null) && (key.equals(items[i].getName()))) {
-                k++;
-            }
-        }
-        Item[] array = new Item[k + 1];
-        k = 0;
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < position; i++) {
             if ((items[i] != null) && (key.equals(items[i].getName()))) {
                 array[k++] = items[i];
             }
         }
-        return array;
+        return Arrays.copyOf(array, k);
     }
 
     /**
      * Метод проверяет в цикле все элементы массива items, сравнивая id
+     *
      * @param id уникальный идентификатор
      * @return искомый элемент, имеющий уникальный id
      */
@@ -138,14 +128,4 @@ public class Tracker {
         }
         return null;
     }
-
-    /**
-     * Метод присваивает null элементу приватного массива items(необходимо для теста)
-     * @param id уникальный идентификатор
-     */
-    public void setNull(String id){
-        items[indexOf(id)] = null;
-    }
-
-
 }

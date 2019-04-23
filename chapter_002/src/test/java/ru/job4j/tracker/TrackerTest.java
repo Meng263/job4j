@@ -70,11 +70,16 @@ public class TrackerTest {
         old.add(first);
         old.add(second);
         old.add(third);
-        old.setNull(second.getId());
-        Item[] array = new Item[2];
-        array = old.findAll();
-        assertThat(array[0].getId(), is(first.getId()));
-        assertThat(array[1].getId(), is(third.getId()));
+        Item[] result = old.findAll();
+        Item[] expected = new Item[3];
+        expected[0] = first;
+        expected[1] = second;
+        expected[2] = third;
+        assertThat(expected.length, is(result.length));
+        assertThat(expected[0].getId(), is(result[0].getId()));
+        assertThat(expected[1].getId(), is(result[1].getId()));
+        assertThat(expected[2].getId(), is(result[2].getId()));
+
     }
 
     @Test
