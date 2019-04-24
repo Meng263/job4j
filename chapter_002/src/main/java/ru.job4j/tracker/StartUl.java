@@ -82,6 +82,7 @@ public class StartUl {
                     break;
                 case FINDNAME:
                     this.findByName();
+                    break;
                 case EXIT:
                     exit = true;
                     break;
@@ -108,6 +109,7 @@ public class StartUl {
      * @return true в случае, если заявка отредактирована
      */
     private boolean editItem() {
+        boolean result = false;
         System.out.println("------------ edit ticket --------------");
         String id = this.input.ask("Please, enter the ticket ID to edit: ");
         String name = this.input.ask("Please, enter the ticket Name to edit: ");
@@ -116,12 +118,12 @@ public class StartUl {
         if (this.tracker.replace(id, item)) {
             System.out.println("------------ ticket edited --------------");
             System.out.println();
-            return true;
+            result = true;
         } else {
             System.out.println("---- ticket edited error, try again ----");
             System.out.println();
         }
-        return false;
+        return result;
     }
 
     /**
@@ -130,17 +132,18 @@ public class StartUl {
      * @return true, если заявку удалось удалить
      */
     private boolean deleteItem() {
+        boolean result = false;
         System.out.println("------------ delete ticket --------------");
         String id = this.input.ask("Please, enter the ticket ID to delete: ");
         if (this.tracker.delete(id)) {
             System.out.println("----------- ticket deleted-------------");
             System.out.println();
-            return true;
+            result = true;
         } else {
             System.out.println("------- ticket deleted error ----------");
             System.out.println();
         }
-        return false;
+        return result;
     }
 
     /**
