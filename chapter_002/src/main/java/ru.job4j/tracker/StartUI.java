@@ -5,7 +5,7 @@ package ru.job4j.tracker;
  * @version $Id$
  * @since 0.1
  */
-public class StartUl {
+public class StartUI {
     /**
      * Константа меню для добавления новой заявки.
      */
@@ -51,7 +51,7 @@ public class StartUl {
      * @param input   ввод данных.
      * @param tracker хранилище заявок.
      */
-    public StartUl(Input input, Tracker tracker) {
+    public StartUI(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -152,9 +152,15 @@ public class StartUl {
     private void findById() {
         System.out.println("---------- find tickets by ID ------------");
         String id = this.input.ask("Please, enter the ticket ID to search: ");
-        showItem(this.tracker.findById(id));
-        System.out.println("---------- search completed -------------");
-        System.out.println();
+        if (this.tracker.findById(id) != null) {
+            showItem(this.tracker.findById(id));
+            System.out.println("---------- search completed -------------");
+            System.out.println();
+        } else {
+            System.out.println("---------- item not found -------------");
+            System.out.println("---------- search completed -----------");
+            System.out.println();
+        }
     }
 
     /**
@@ -208,6 +214,6 @@ public class StartUl {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUl(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ConsoleInput(), new Tracker()).init();
     }
 }
