@@ -13,6 +13,7 @@ public class Item {
 
     /**
      * Констуктор Item
+     *
      * @param name имя
      * @param decs описание
      * @param time время
@@ -57,13 +58,17 @@ public class Item {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Item item = (Item) o;
-        return time == item.time &&
-                Objects.equals(id, item.id) &&
-                Objects.equals(name, item.name) &&
-                Objects.equals(decs, item.decs);
+        return time == item.time
+                && Objects.equals(id, item.id)
+                && Objects.equals(name, item.name)
+                && Objects.equals(decs, item.decs);
     }
 
     @Override
