@@ -5,6 +5,12 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.After;
+import org.junit.Before;
+
 public class StartUITest {
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
@@ -35,6 +41,75 @@ public class StartUITest {
         Item two = tracker.add(new Item("gelo", "descTwo", System.currentTimeMillis()));
         Input input = new StubInput(new String[]{"3", one.getId(), "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("gelo")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        assertThat(tracker.findAll()[0].getName(), is("gelo"));
+    }
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    PrintStream stdout = System.out;
+
+    @Before
+    public void loadOutput() {
+        System.setOut(new PrintStream(this.out));
+    }
+
+    @After
+    public void backOutput() {
+        System.setOut(this.stdout);
+    }
+
+    @Test
+    public void whenShowMenu() {
+        Tracker tracker = new Tracker();
+        Input input = new StubInput(new String[]{"6"});
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(out.toByteArray()),
+                is(new StringBuilder()
+                        .append("0. Add new Item\r\n")
+                        .append("1. Show all items\r\n")
+                        .append("2. Edit item\r\n")
+                        .append("3. Delete item\r\n")
+                        .append("4. Find item by Id\r\n")
+                        .append("5. Find items by name\r\n")
+                        .append("6. Exit Program\r\n")
+                        .toString()
+                )
+        );
+    }
+
+    @Test
+    public void whenShowAll() {
+        Tracker tracker = new Tracker();
+        Item one = tracker.add(new Item("goro", "descOne", System.currentTimeMillis()));
+        Input input = new StubInput(new String[]{"1", "6"});
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(out.toByteArray()),
+                is(new StringBuilder()
+                        .append("0. Add new Item\r\n")
+                        .append("1. Show all items\r\n")
+                        .append("2. Edit item\r\n")
+                        .append("3. Delete item\r\n")
+                        .append("4. Find item by Id\r\n")
+                        .append("5. Find items by name\r\n")
+                        .append("6. Exit Program\r\n")
+                        .append("------------ ticket --------------\r\n")
+                        .append("Item id ")
+                        .append(one.getId())
+                        .append("\r\n")
+                        .append("Item name goro\r\n")
+                        .append("Item description descOne\r\n\r\n")
+                        .append("---------- done -----------\r\n\r\n")
+                        .append("0. Add new Item\r\n")
+                        .append("1. Show all items\r\n")
+                        .append("2. Edit item\r\n")
+                        .append("3. Delete item\r\n")
+                        .append("4. Find item by Id\r\n")
+                        .append("5. Find items by name\r\n")
+                        .append("6. Exit Program\r\n")
+                        .toString()
+                )
+        );
+
     }
 }
