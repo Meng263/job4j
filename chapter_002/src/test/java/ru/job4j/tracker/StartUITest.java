@@ -57,24 +57,22 @@ public class StartUITest {
         System.setOut(this.stdout);
     }
 
+    private final String menu = new StringBuilder()
+            .append("0. Add new Item\r\n")
+            .append("1. Show all items\r\n")
+            .append("2. Edit item\r\n")
+            .append("3. Delete item\r\n")
+            .append("4. Find item by Id\r\n")
+            .append("5. Find items by name\r\n")
+            .append("6. Exit Program\r\n")
+            .toString();
+
     @Test
     public void whenShowMenu() {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"6"});
         new StartUI(input, tracker).init();
-        assertThat(
-                new String(out.toByteArray()),
-                is(new StringBuilder()
-                        .append("0. Add new Item\r\n")
-                        .append("1. Show all items\r\n")
-                        .append("2. Edit item\r\n")
-                        .append("3. Delete item\r\n")
-                        .append("4. Find item by Id\r\n")
-                        .append("5. Find items by name\r\n")
-                        .append("6. Exit Program\r\n")
-                        .toString()
-                )
-        );
+        assertThat(new String(out.toByteArray()), is(menu));
     }
 
     @Test
@@ -86,27 +84,88 @@ public class StartUITest {
         assertThat(
                 new String(out.toByteArray()),
                 is(new StringBuilder()
-                        .append("0. Add new Item\r\n")
-                        .append("1. Show all items\r\n")
-                        .append("2. Edit item\r\n")
-                        .append("3. Delete item\r\n")
-                        .append("4. Find item by Id\r\n")
-                        .append("5. Find items by name\r\n")
-                        .append("6. Exit Program\r\n")
+                        .append(menu)
                         .append("------------ ticket --------------\r\n")
                         .append("Item id ")
                         .append(one.getId())
                         .append("\r\n")
-                        .append("Item name goro\r\n")
-                        .append("Item description descOne\r\n\r\n")
+                        .append("Item name ")
+                        .append(one.getName())
+                        .append("\r\n")
+                        .append("Item description ")
+                        .append(one.getDecs())
+                        .append("\r\n\r\n")
                         .append("---------- done -----------\r\n\r\n")
-                        .append("0. Add new Item\r\n")
-                        .append("1. Show all items\r\n")
-                        .append("2. Edit item\r\n")
-                        .append("3. Delete item\r\n")
-                        .append("4. Find item by Id\r\n")
-                        .append("5. Find items by name\r\n")
-                        .append("6. Exit Program\r\n")
+                        .append(menu)
+                        .toString()
+                )
+        );
+    }
+
+    @Test
+    public void whenFindItemByName() {
+        Tracker tracker = new Tracker();
+        Item one = tracker.add(new Item("goro", "descOne", System.currentTimeMillis()));
+        Item two = tracker.add(new Item("gelo", "descTwo", System.currentTimeMillis()));
+        Item three = tracker.add(new Item("goro", "descthree", System.currentTimeMillis()));
+        Input input = new StubInput(new String[]{"5", "goro", "6"});
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(out.toByteArray()),
+                is(new StringBuilder()
+                        .append(menu)
+                        .append("---------- find tickets by Name ------------\r\n")
+                        .append("------------ ticket --------------\r\n")
+                        .append("Item id ")
+                        .append(one.getId())
+                        .append("\r\n")
+                        .append("Item name ")
+                        .append(one.getName())
+                        .append("\r\n")
+                        .append("Item description ")
+                        .append(one.getDecs())
+                        .append("\r\n\r\n")
+                        .append("------------ ticket --------------\r\n")
+                        .append("Item id ")
+                        .append(three.getId())
+                        .append("\r\n")
+                        .append("Item name ")
+                        .append(three.getName())
+                        .append("\r\n")
+                        .append("Item description ")
+                        .append(three.getDecs())
+                        .append("\r\n\r\n")
+                        .append("---------- search completed -------------\r\n\r\n")
+                        .append(menu)
+                        .toString()
+                ));
+    }
+
+    @Test
+    public void whenFindById() {
+        Tracker tracker = new Tracker();
+        Item one = tracker.add(new Item("goro", "descOne", System.currentTimeMillis()));
+        Input input = new StubInput(new String[]{"4", one.getId(), "6"});
+        Item two = tracker.add(new Item("gelo", "descTwo", System.currentTimeMillis()));
+        Item three = tracker.add(new Item("goro", "descthree", System.currentTimeMillis()));
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(out.toByteArray()),
+                is(new StringBuilder()
+                        .append(menu)
+                        .append("---------- find tickets by ID ------------\r\n")
+                        .append("------------ ticket --------------\r\n")
+                        .append("Item id ")
+                        .append(one.getId())
+                        .append("\r\n")
+                        .append("Item name ")
+                        .append(one.getName())
+                        .append("\r\n")
+                        .append("Item description ")
+                        .append(one.getDecs())
+                        .append("\r\n\r\n")
+                        .append("---------- search completed -------------\r\n\r\n")
+                        .append(menu)
                         .toString()
                 )
         );
