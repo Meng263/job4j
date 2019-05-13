@@ -32,13 +32,13 @@ public class StartUI {
      * Основой цикл программы.
      */
     public void init() {
-
+        int[] range = new int[]{0, 1, 2, 3, 4, 5, 6};
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions();
         int ext = 0;
         do {
             menu.show();
-            ext = Integer.valueOf(input.ask("Select:"));
+            ext = input.ask("Select:", range);
             menu.select(ext);
         } while (ext != 6);
     }
@@ -48,6 +48,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }
