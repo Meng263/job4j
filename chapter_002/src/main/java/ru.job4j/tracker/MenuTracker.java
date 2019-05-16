@@ -41,13 +41,13 @@ public class MenuTracker {
      * Метод заполняет массив.
      */
     public void fillActions() {
-        this.actions.add(new AddItem());
-        this.actions.add(new ShowItems());
-        this.actions.add(new EditItem());
-        this.actions.add(new DeleteItem());
-        this.actions.add(new FindItemById());
-        this.actions.add(new FindItemsByName());
-        this.actions.add(new Exit());
+        this.actions.add(new AddItem(0, "Add new Item"));
+        this.actions.add(new ShowItems(1, "Show all items"));
+        this.actions.add(new EditItem(2, "Edit item"));
+        this.actions.add(new DeleteItem(3, "Delete item"));
+        this.actions.add(new FindItemById(4, "Find item by Id"));
+        this.actions.add(new FindItemsByName(5, "Find items by name"));
+        this.actions.add(new Exit(6, "Exit Program"));
     }
 
     /**
@@ -73,25 +73,9 @@ public class MenuTracker {
     /**
      * Класс реализует добавление новой заявки в хранилище
      */
-    public class AddItem implements UserAction {
-        /**
-         * Метод возвращает код операции
-         *
-         * @return ключ
-         */
-        @Override
-        public int key() {
-            return 0;
-        }
-
-        /**
-         * Метод возвращает информацию о операщии
-         *
-         * @return инфо
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", key(), "Add new Item");
+    public class AddItem extends BaseAction {
+        public AddItem(int key, String info) {
+            super(key, info);
         }
 
         /**
@@ -115,25 +99,9 @@ public class MenuTracker {
     /**
      * Класс реализует вывод всех заявок
      */
-    public class ShowItems implements UserAction {
-        /**
-         * Метод возвращает код операции
-         *
-         * @return ключ
-         */
-        @Override
-        public int key() {
-            return 1;
-        }
-
-        /**
-         * Метод возвращает информацию о операщии
-         *
-         * @return инфо
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", key(), "Show all items");
+    public class ShowItems extends BaseAction {
+        public ShowItems(int key, String info) {
+            super(key, info);
         }
 
         @Override
@@ -149,25 +117,9 @@ public class MenuTracker {
         }
     }
 
-    public class EditItem implements UserAction {
-        /**
-         * Метод возвращает код операции
-         *
-         * @return ключ
-         */
-        @Override
-        public int key() {
-            return 2;
-        }
-
-        /**
-         * Метод возвращает информацию о операщии
-         *
-         * @return инфо
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", key(), "Edit item");
+    public class EditItem extends BaseAction {
+        public EditItem(int key, String info) {
+            super(key, info);
         }
 
         @Override
@@ -190,25 +142,9 @@ public class MenuTracker {
         }
     }
 
-    public class DeleteItem implements UserAction {
-        /**
-         * Метод возвращает код операции
-         *
-         * @return ключ
-         */
-        @Override
-        public int key() {
-            return 3;
-        }
-
-        /**
-         * Метод возвращает информацию о операщии
-         *
-         * @return инфо
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", key(), "Delete item");
+    public class DeleteItem extends BaseAction {
+        public DeleteItem(int key, String info) {
+            super(key, info);
         }
 
         @Override
@@ -228,25 +164,9 @@ public class MenuTracker {
         }
     }
 
-    public class FindItemById implements UserAction {
-        /**
-         * Метод возвращает код операции
-         *
-         * @return ключ
-         */
-        @Override
-        public int key() {
-            return 4;
-        }
-
-        /**
-         * Метод возвращает информацию о операщии
-         *
-         * @return инфо
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", key(), "Find item by Id");
+    public class FindItemById extends BaseAction {
+        public FindItemById(int key, String info) {
+            super(key, info);
         }
 
         @Override
@@ -269,25 +189,9 @@ public class MenuTracker {
 
     }
 
-    public class FindItemsByName implements UserAction {
-        /**
-         * Метод возвращает код операции
-         *
-         * @return ключ
-         */
-        @Override
-        public int key() {
-            return 5;
-        }
-
-        /**
-         * Метод возвращает информацию о операщии
-         *
-         * @return инфо
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", key(), "Find items by name");
+    public class FindItemsByName extends BaseAction {
+        public FindItemsByName(int key, String info) {
+            super(key, info);
         }
 
         @Override
@@ -307,25 +211,9 @@ public class MenuTracker {
 
     }
 
-    public class Exit implements UserAction {
-        /**
-         * Метод возвращает код операции
-         *
-         * @return ключ
-         */
-        @Override
-        public int key() {
-            return 6;
-        }
-
-        /**
-         * Метод возвращает информацию о операщии
-         *
-         * @return инфо
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", key(), "Exit Program");
+    public class Exit extends BaseAction {
+        public Exit(int key, String info) {
+            super(key, info);
         }
 
         @Override
