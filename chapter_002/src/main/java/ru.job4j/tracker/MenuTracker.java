@@ -40,14 +40,14 @@ public class MenuTracker {
     /**
      * Метод заполняет массив.
      */
-    public void fillActions() {
+    public void fillActions(StartUI ui) {
         this.actions.add(new AddItem(0, "Add new Item"));
         this.actions.add(new ShowItems(1, "Show all items"));
         this.actions.add(new EditItem(2, "Edit item"));
         this.actions.add(new DeleteItem(3, "Delete item"));
         this.actions.add(new FindItemById(4, "Find item by Id"));
         this.actions.add(new FindItemsByName(5, "Find items by name"));
-        this.actions.add(new Exit(6, "Exit Program"));
+        this.actions.add(new Exit(6, "Exit Program", ui));
     }
 
     /**
@@ -212,16 +212,19 @@ public class MenuTracker {
     }
 
     public class Exit extends BaseAction {
-        public Exit(int key, String info) {
+        public Exit(int key, String info, StartUI ui) {
             super(key, info);
+            this.ui = ui;
         }
+
+        private final StartUI ui;
 
         @Override
         /**
-         * Метод находит заявки по имени и выводит их в консоль
+         * Метод реализует выход из программы
          */
         public void execute(Input input, Tracker tracker) {
-
+            this.ui.switchToExt();
         }
     }
 }

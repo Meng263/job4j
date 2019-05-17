@@ -18,6 +18,17 @@ public class StartUI {
     private final Tracker tracker;
 
     /**
+     *Переключатель, true выход из программы, false программа продолжает работать
+     */
+    private boolean ext = false;
+
+    /**
+     * Метод устанавливает значение ext true для выхода из программы
+     */
+    public void switchToExt() {
+        ext = true;
+    }
+    /**
      * Конструтор инициализирующий поля.
      *
      * @param input   ввод данных.
@@ -34,20 +45,21 @@ public class StartUI {
     public void init() {
         int[] range = new int[]{0, 1, 2, 3, 4, 5, 6};
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        menu.fillActions();
-        int ext = 0;
+        menu.fillActions(this);
+        int action = 0;
         do {
             menu.show();
-            ext = input.ask("Select:", range);
-            menu.select(ext);
-        } while (ext != 6);
+            action = input.ask("Select:", range);
+            menu.select(action);
+        } while (!this.ext);
     }
+
     /**
      * Запускт программы.
      *
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ValidateInput( new ConsoleInput()), new Tracker()).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
     }
 }

@@ -68,7 +68,7 @@ public class StartUITest {
             .toString();
 
     @Test
-    public void whenShowMenu() {
+    public void whenShowMenuAndExit() {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"6"});
         new StartUI(input, tracker).init();
