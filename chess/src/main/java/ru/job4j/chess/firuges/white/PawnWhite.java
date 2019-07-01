@@ -22,9 +22,23 @@ public class PawnWhite implements Figure {
         return this.position;
     }
 
+    /**
+     * Метод реализует перемещение пешки, если пешка стоит на начальной позиции, может ходить на 2 клетки вперед
+     * в остальных случаях на 1 клетку вперед
+     * @param source начальная ячейка
+     * @param dest конечная ячейка
+     * @return ячеку назначения если джижется на 1 клетку
+     * ячейку назначения и предыдущую, если движется на 2 клетки, начиная с предыдущей
+     */
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        return new Cell[] { dest };
+        Cell[] steps = new Cell[0];
+        if (source.x == dest.x && source.y == 1 && source.y == dest.y - 2) {
+            steps = new Cell[]{Cell.values()[(dest.x) * 8 + dest.y - 1], dest};
+        } else if (source.x == dest.x && source.y == dest.y - 1) {
+            steps = new Cell[]{dest};
+        }
+        return steps;
     }
 
     @Override
