@@ -16,6 +16,7 @@ public class Logic {
     private final Figure[] figures = new Figure[32];
     private int index = 0;
 
+
     public void add(Figure figure) {
         this.figures[this.index++] = figure;
     }
@@ -27,27 +28,24 @@ public class Logic {
      * @param dest   клетка, куда фигуру перемещаем
      * @return true, если перемещение состоялось
      */
-    public boolean move(Cell source, Cell dest) {
+    public boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
         boolean rst = false;
         boolean busy = false;
         int index = this.findBy(source);
+        if (index == -1) throw new FigureNotFoundException("Figure not found!");
         Cell[] steps = new Cell[0];
         if (index != -1) {
-            try {
-                steps = this.figures[index].way(source, dest);
-            } catch (ImpossibleMoveException ime) {
-                System.out.println(ime.getMessage());
+            steps = this.figures[index].way(source, dest);
+        }
+        for (Cell i : steps) {
+            if (this.isBusy(i)) {
+                busy = true;
+                throw new OccupiedWayException("Way is busy!");
             }
-            for (Cell i : steps) {
-                if (this.isBusy(i)) {
-                    busy = true;
-                    break;
-                }
-            }
-            if (!busy && steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                rst = true;
-                this.figures[index] = this.figures[index].copy(dest);
-            }
+        }
+        if (!busy && steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+            rst = true;
+            this.figures[index] = this.figures[index].copy(dest);
         }
         return rst;
     }
