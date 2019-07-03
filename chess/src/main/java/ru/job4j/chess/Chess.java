@@ -62,29 +62,16 @@ public class Chess extends Application {
         rect.setOnMouseReleased(
                 event -> {
                     try {
-
-
                         if (logic.move(this.findBy(momento.getX(), momento.getY()), this.findBy(event.getX(), event.getY()))) {
                             rect.setX(((int) event.getX() / 40) * 40 + 5);
                             rect.setY(((int) event.getY() / 40) * 40 + 5);
-                        } else {
-                            rect.setX(((int) momento.getX() / 40) * 40 + 5);
-                            rect.setY(((int) momento.getY() / 40) * 40 + 5);
                         }
-                    } catch (FigureNotFoundException fnf) {
+                        }
+                     catch (FigureNotFoundException | OccupiedWayException | ImpossibleMoveException fnf) {
                         System.out.println(fnf.getMessage());
                         rect.setX(((int) momento.getX() / 40) * 40 + 5);
                         rect.setY(((int) momento.getY() / 40) * 40 + 5);
-                    } catch (OccupiedWayException owe) {
-                        System.out.println(owe.getMessage());
-                        rect.setX(((int) momento.getX() / 40) * 40 + 5);
-                        rect.setY(((int) momento.getY() / 40) * 40 + 5);
-                    } catch (ImpossibleMoveException ome) {
-                        System.out.println(ome.getMessage());
-                        rect.setX(((int) momento.getX() / 40) * 40 + 5);
-                        rect.setY(((int) momento.getY() / 40) * 40 + 5);
                     }
-
                 }
         );
         return rect;
