@@ -13,7 +13,7 @@ public class ConvertList2Array {
      * @return двумерный массив
      */
     public int[][] toArray(List<Integer> list, int rows) {
-        int cells = list.size() % rows == 0 ? list.size() / 3 : list.size() / 3 + 1;
+        int cells = list.size() % rows == 0 ? list.size() / rows : list.size() / rows + 1;
         int[][] array = new int[rows][cells];
         int x = 0, y = 0;
         for (Integer elem : list) {
