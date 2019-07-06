@@ -1,5 +1,6 @@
 package ru.job4j.convertArrayList;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -8,6 +9,7 @@ import java.util.List;
 public class ConvertList2Array {
     /**
      * метод конвертирует список в двумерный массив
+     *
      * @param list список
      * @param rows кол-во строк
      * @return двумерный массив
@@ -24,5 +26,21 @@ public class ConvertList2Array {
             }
         }
         return array;
+    }
+
+    /**
+     * Метод конвертирует список массивов int в общий список
+     *
+     * @param list лист массивов int
+     * @return общий список
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new LinkedList<Integer>();
+        for (int[] arr : list) {
+            for (int elem : arr) {
+                result.add(elem);
+            }
+        }
+        return result;
     }
 }
