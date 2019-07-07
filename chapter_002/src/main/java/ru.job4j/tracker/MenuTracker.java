@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MenuTracker {
@@ -201,7 +202,8 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("---------- find tickets by Name ------------");
             String name = input.ask("Please, enter the ticket Name to search: ");
-            Item[] items = tracker.findByName(name);
+
+            ArrayList<Item> items = new ArrayList<>(Arrays.asList(tracker.findByName(name)));
             for (Item i : items) {
                 i.show();
             }
