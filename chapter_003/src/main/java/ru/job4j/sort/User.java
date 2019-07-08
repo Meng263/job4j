@@ -1,4 +1,4 @@
-package ru.job4j.sortedSet;
+package ru.job4j.sort;
 
 import java.util.Objects;
 
