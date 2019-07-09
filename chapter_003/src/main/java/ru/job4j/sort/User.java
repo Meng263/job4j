@@ -6,8 +6,8 @@ import java.util.Objects;
  * Пользователь с параметрами возраст и имя
  */
 public class User implements Comparable<User> {
-    Integer age;
-    String name;
+   private Integer age;
+   private String name;
 
     public User(Integer age, String name) {
         this.age = age;
@@ -21,6 +21,22 @@ public class User implements Comparable<User> {
         User user = (User) o;
         return age == user.age &&
                 Objects.equals(name, user.name);
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

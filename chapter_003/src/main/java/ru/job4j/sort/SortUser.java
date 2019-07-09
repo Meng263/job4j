@@ -14,7 +14,7 @@ public class SortUser {
      */
     public Set<User> sort(List<User> list) {
         Set<User> result;
-        result = new TreeSet<User>();
+        result = new TreeSet<>();
         for (User item : list) {
             result.add(item);
         }
@@ -43,9 +43,9 @@ public class SortUser {
         result.sort(new Comparator<User>() {
             @Override
             public int compare(User left, User right) {
-                int result = left.name.compareTo(right.name);
+                int result = left.getName().compareTo(right.getName());
                 if (result == 0) {
-                    result = Integer.compare(left.age, right.age);
+                    result = Integer.compare(left.getAge(), right.getAge());
                 }
                 return result;
             }
