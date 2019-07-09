@@ -203,7 +203,7 @@ public class MenuTracker {
             System.out.println("---------- find tickets by Name ------------");
             String name = input.ask("Please, enter the ticket Name to search: ");
 
-            ArrayList<Item> items = new ArrayList<>(Arrays.asList(tracker.findByName(name)));
+            List<Item> items = tracker.findByName(name);
             for (Item i : items) {
                 i.show();
             }

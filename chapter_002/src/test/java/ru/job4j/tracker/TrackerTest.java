@@ -2,6 +2,9 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -70,16 +73,13 @@ public class TrackerTest {
         old.add(first);
         old.add(second);
         old.add(third);
-        Item[] result = old.findAll();
-        Item[] expected = new Item[3];
-        expected[0] = first;
-        expected[1] = second;
-        expected[2] = third;
-        assertThat(expected.length, is(result.length));
-        assertThat(expected[0].getId(), is(result[0].getId()));
-        assertThat(expected[1].getId(), is(result[1].getId()));
-        assertThat(expected[2].getId(), is(result[2].getId()));
-
+        List<Item> result = old.findAll();
+        List<Item> expected = new ArrayList<>();
+        expected.add(first);
+        expected.add(second);
+        expected.add(third);
+        assertThat(expected.size(), is(result.size()));
+        assertThat(expected, is(result));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class TrackerTest {
         old.add(first);
         old.add(second);
         old.add(third);
-        assertThat(old.findByName("goro")[0].getId(), is(second.getId()));
-        assertThat(old.findByName("goro")[1].getId(), is(third.getId()));
+        assertThat(old.findByName("goro").get(0).getId(), is(second.getId()));
+        assertThat(old.findByName("goro").get(1).getId(), is(third.getId()));
     }
 }
