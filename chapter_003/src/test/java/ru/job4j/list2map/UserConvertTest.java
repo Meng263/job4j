@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 
 public class UserConvertTest {
     @Test
-    public void when3ItemThan(){
+    public void when3ItemThan() {
         UserConvert userConvert = new UserConvert();
         List<User> list = new LinkedList<>();
         User jora = new User(133, "Jora", "Yekaterinburg");
@@ -27,7 +27,7 @@ public class UserConvertTest {
     }
 
     @Test
-    public void when2ItemThan(){
+    public void when2ItemThan() {
         UserConvert userConvert = new UserConvert();
         List<User> list = new LinkedList<>();
         User jora = new User(13, "Jora", "Yekaterinburg");

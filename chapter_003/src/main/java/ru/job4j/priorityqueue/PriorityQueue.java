@@ -1,4 +1,4 @@
-package ru.job4j.priorityQueue;
+package ru.job4j.priorityqueue;
 
 import java.util.*;
 

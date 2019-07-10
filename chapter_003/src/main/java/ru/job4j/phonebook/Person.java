@@ -1,4 +1,4 @@
-package ru.job4j.phoneBook;
+package ru.job4j.phonebook;
 
 /**
  * Запись в телефонном справочнике

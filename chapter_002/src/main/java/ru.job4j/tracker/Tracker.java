@@ -45,7 +45,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generateId());
-        this.items.add(position++ ,item);
+        this.items.add(position++, item);
         return item;
     }
 
@@ -111,8 +111,8 @@ public class Tracker {
      */
     public List<Item> findByName(String key) {
         List<Item> list = new ArrayList<>();
-        for(Item item : items) {
-            if (item.getName().equals(key)){
+        for (Item item : items) {
+            if (item.getName().equals(key)) {
                 list.add(item);
             }
         }
@@ -128,7 +128,7 @@ public class Tracker {
     public Item findById(String id) {
         Item result = null;
             for (Item item : items) {
-                if (item.getId().equals(id)){
+                if (item.getId().equals(id)) {
                     result = item;
                 }
             }

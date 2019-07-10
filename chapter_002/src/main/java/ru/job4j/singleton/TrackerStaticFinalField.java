@@ -10,7 +10,7 @@ public class TrackerStaticFinalField {
     /**
      * Константа, содержит единственный экземпляр класса
      */
-    private static final TrackerStaticFinalField instance = new TrackerStaticFinalField();
+    private static final TrackerStaticFinalField INSTANCE = new TrackerStaticFinalField();
 
     private TrackerStaticFinalField() {
     }
@@ -18,10 +18,10 @@ public class TrackerStaticFinalField {
     /**
      * Метод возвращает единственный экземпляр класса
      *
-     * @return instance
+     * @return INSTANCE
      */
     public static TrackerStaticFinalField getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     /**

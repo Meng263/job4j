@@ -9,13 +9,13 @@ import static org.junit.Assert.assertThat;
 public class PawnWhiteTest {
 
     @Test
-    public void WhenPawnTurn2Cell() {
+    public void whenPawnTurnTwoCell() {
         PawnWhite pawn = new PawnWhite(Cell.A2);
         Cell[] result = pawn.way(Cell.A2, Cell.A4);
         assertThat(result, is(new Cell[]{Cell.A3, Cell.A4}));
     }
     @Test
-    public void WhenPawnTurn1Cell() {
+    public void whenPawnTurnOneCell() {
         PawnWhite pawn = new PawnWhite(Cell.A3);
         Cell[] result = pawn.way(Cell.A3, Cell.A4);
         assertThat(result, is(new Cell[]{Cell.A4}));

@@ -35,8 +35,9 @@ public class PawnWhite implements Figure {
     @Override
     public Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException {
         Cell[] steps = new Cell[0];
-        if (!this.checkWay(source, dest)) throw new ImpossibleMoveException("Wrong way!");
-        else if (source.x == dest.x && source.y == 1 && source.y == dest.y - 2) {
+        if (!this.checkWay(source, dest)) {
+            throw new ImpossibleMoveException("Wrong way!");
+        } else if (source.x == dest.x && source.y == 1 && source.y == dest.y - 2) {
             steps = new Cell[]{Cell.values()[(dest.x) * 8 + dest.y - 1], dest};
         } else if (source.x == dest.x && source.y == dest.y - 1) {
             steps = new Cell[]{dest};

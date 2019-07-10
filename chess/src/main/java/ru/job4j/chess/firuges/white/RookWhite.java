@@ -30,7 +30,9 @@ public class RookWhite implements Figure {
     @Override
     public Cell[] way(Cell source, Cell dest) {
         Cell[] steps = new Cell[0];
-        if (!this.isStraightLine(source, dest)) throw new ImpossibleMoveException("Wrong way!");
+        if (!this.isStraightLine(source, dest)) {
+            throw new ImpossibleMoveException("Wrong way!");
+        }
             int directX = dest.x - source.x;
             int directY = dest.y - source.y;
             steps = new Cell[Math.abs(directX == 0 ? directY : directX)];

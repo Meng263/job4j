@@ -80,8 +80,12 @@ public class Logic {
         int colomnCount = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (table[i][j] == 1) rowCount++;
-                if (table[j][i] == 1) colomnCount++;
+                if (table[i][j] == 1) {
+                    rowCount++;
+                }
+                if (table[j][i] == 1) {
+                    colomnCount++;
+                }
                 }
             if ((rowCount == size) || (colomnCount == size)) {
                 result = true;

@@ -30,7 +30,9 @@ public class BishopWhite implements Figure {
      */
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        if (!isDiagonal(source, dest)) throw new ImpossibleMoveException("Wrong way!");
+        if (!isDiagonal(source, dest)) {
+            throw new ImpossibleMoveException("Wrong way!");
+        }
         Cell[] steps = new Cell[0];
         int deltaX = dest.x - source.x;
         int deltaY = dest.y - source.y;
@@ -50,7 +52,7 @@ public class BishopWhite implements Figure {
      * @param dest ячейка назначения
      * @return true, если путь это диагональ
      */
-    private boolean isDiagonal(Cell source, Cell dest){
+    private boolean isDiagonal(Cell source, Cell dest) {
         return (Math.abs(dest.x - source.x) == Math.abs(dest.y - source.y));
     }
 

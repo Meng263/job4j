@@ -15,7 +15,7 @@ public class TrackerStaticField {
     /**
      * Приватный конструктор
      */
-    private TrackerStaticField() {}
+    private TrackerStaticField() { }
 
     /**
      * Метод возвращает единственный экземпляр класса

@@ -1,4 +1,4 @@
-package ru.job4j.phoneBook;
+package ru.job4j.phonebook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,9 @@ public class PhoneDictionary {
                     || human.getPhone().contains(key)) {
                 result.add(human);
             }
-            if (result.isEmpty()) throw new ItemNotFoundException("Запись не найдена!");
+            if (result.isEmpty()) {
+                throw new ItemNotFoundException("Запись не найдена!");
+            }
         }
         return result;
     }

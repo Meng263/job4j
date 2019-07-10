@@ -8,7 +8,8 @@ import java.util.Comparator;
 public class StringComparator implements Comparator<String> {
     /**
      * Метод реализует лексикографическое сравнение строк
-     * @param left первая строка
+     *
+     * @param left  первая строка
      * @param right вторая строка
      * @return 0, если равны; больше 0, если позиция второй строки больше ; меньше 0, если позиция первой строки больше
      */
@@ -23,7 +24,9 @@ public class StringComparator implements Comparator<String> {
                 break;
             }
         }
-        if (i == (length)) result = Integer.compare(left.length(), right.length());
+        if (i == (length)) {
+            result = Integer.compare(left.length(), right.length());
+        }
         return result;
     }
 }

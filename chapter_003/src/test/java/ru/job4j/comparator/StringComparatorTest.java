@@ -9,7 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class StringComparatorTest {
     @Test
-    public void whenStringsAreEqualThenZero () {
+    public void whenStringsAreEqualThenZero() {
         StringComparator compare = new StringComparator();
         int rst = compare.compare(
                 "Ivanov",
@@ -19,7 +19,7 @@ public class StringComparatorTest {
     }
 
     @Test
-    public void whenLeftLessThanRightResultShouldBeNegative () {
+    public void whenLeftLessThanRightResultShouldBeNegative() {
         StringComparator compare = new StringComparator();
         int rst = compare.compare(
                 "Ivanov",
@@ -29,7 +29,7 @@ public class StringComparatorTest {
     }
 
     @Test
-    public void whenLeftGreaterThanRightResultShouldBePositive () {
+    public void whenLeftGreaterThanRightResultShouldBePositive() {
         StringComparator compare = new StringComparator();
         int rst = compare.compare(
                 "Petrov",
@@ -39,7 +39,7 @@ public class StringComparatorTest {
     }
 
     @Test
-    public void secondCharOfLeftGreaterThanRightShouldBePositive(){
+    public void secondCharOfLeftGreaterThanRightShouldBePositive() {
         StringComparator compare = new StringComparator();
         int rst = compare.compare(
                 "Petrov",
@@ -49,7 +49,7 @@ public class StringComparatorTest {
     }
 
     @Test
-    public void secondCharOfLeftLessThanRightShouldBeNegative(){
+    public void secondCharOfLeftLessThanRightShouldBeNegative() {
         StringComparator compare = new StringComparator();
         int rst = compare.compare(
                 "Patrova",

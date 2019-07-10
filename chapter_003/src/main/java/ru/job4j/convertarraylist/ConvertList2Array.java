@@ -1,4 +1,4 @@
-package ru.job4j.convertArrayList;
+package ru.job4j.convertarraylist;
 
 import java.util.LinkedList;
 import java.util.List;

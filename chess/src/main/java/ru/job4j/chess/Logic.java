@@ -32,7 +32,9 @@ public class Logic {
         boolean rst = false;
         boolean busy = false;
         int index = this.findBy(source);
-        if (index == -1) throw new FigureNotFoundException("Figure not found!");
+        if (index == -1) {
+            throw new FigureNotFoundException("Figure not found!");
+        }
         Cell[] steps = new Cell[0];
         if (index != -1) {
             steps = this.figures[index].way(source, dest);
@@ -79,7 +81,9 @@ public class Logic {
 
     public boolean isBusy(Cell cell) {
         boolean result = true;
-        if (this.findBy(cell) == -1) result = false;
+        if (this.findBy(cell) == -1) {
+            result = false;
+        }
         return result;
     }
 }

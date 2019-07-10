@@ -10,7 +10,7 @@ public class TrackerStaticFinalClass {
     /**
      * Приватный конструктор по-умолчанию
      */
-     private TrackerStaticFinalClass() {}
+     private TrackerStaticFinalClass() { }
 
     /**
      * Метод возвращает единственный экземпляр класса

@@ -12,21 +12,24 @@ public class CalculatorTest  {
         double expected = 2D;
         assertThat(result, is(expected));
 
-    }@Test
+    }
+    @Test
     public void whenSubtractTwoMinusOneThenOne()  {
         Calculator calc = new Calculator();
         double result = calc.subtract(2D, 1D);
         double expected = 1D;
         assertThat(result, is(expected));
 
-    }@Test
+    }
+    @Test
     public void whenMultiplyTwoMultiplyTwoThenFour()  {
         Calculator calc = new Calculator();
         double result = calc.multiply(2D, 2D);
         double expected = 4D;
         assertThat(result, is(expected));
 
-    }@Test
+    }
+    @Test
     public void whenDivTwoOnTwoThenOne()  {
         Calculator calc = new Calculator();
         double result = calc.div(2D, 2D);

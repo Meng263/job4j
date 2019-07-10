@@ -12,7 +12,7 @@ public class UserConvert {
      * @param list список пользователей
      * @return Map с ключем id
      */
-    public HashMap<Integer, User> process(List<User> list){
+    public HashMap<Integer, User> process(List<User> list) {
         HashMap<Integer, User> map = new HashMap<>();
         for (User elem : list) {
             map.put(elem.getId(), elem);
