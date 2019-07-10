@@ -17,14 +17,13 @@ public class StringComparator implements Comparator<String> {
     public int compare(String left, String right) {
         int result = 0;
         int length = (left.length() > right.length()) ? right.length() : left.length();
-        int i = 0;
-        for (; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             if (left.charAt(i) != right.charAt(i)) {
                 result = Character.compare(left.charAt(i), right.charAt(i));
                 break;
             }
         }
-        if (i == (length)) {
+        if (result == 0) {
             result = Integer.compare(left.length(), right.length());
         }
         return result;
