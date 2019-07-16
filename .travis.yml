@@ -2,7 +2,6 @@
 language: java
 jdk:
   - openjdk12
-  - openjfx
 
 env:
   global:
