@@ -28,13 +28,17 @@ public class ValidateInputTest {
     @Test
     public void whenInvalidInput() {
         ValidateInput input = new ValidateInput(
-                new StubInput(new String[] {"invalid", "6"})
+                new StubInput(new String[]{"invalid", "6"})
         );
-        input.ask("Enter", new int[] {0, 1, 2, 3, 4, 5, 6});
+        input.ask("Enter", new int[]{0, 1, 2, 3, 4, 5, 6});
         assertThat(
                 this.mem.toString(),
                 is(
-                        String.format("Illegal input\r\nPlease, try again\r\n")
+                        new StringBuilder().append("Illegal input")
+                                .append(System.lineSeparator())
+                                .append("Please, try again")
+                                .append(System.lineSeparator())
+                                .toString()
                 )
         );
     }
@@ -42,13 +46,17 @@ public class ValidateInputTest {
     @Test
     public void whenOutOfRangeInput() {
         ValidateInput input = new ValidateInput(
-                new StubInput(new String[] {"-1", "6"})
+                new StubInput(new String[]{"-1", "6"})
         );
-        input.ask("Enter", new int[] {0, 1, 2, 3, 4, 5, 6});
+        input.ask("Enter", new int[]{0, 1, 2, 3, 4, 5, 6});
         assertThat(
                 this.mem.toString(),
                 is(
-                        String.format("Out of range\r\nPlease, try again\r\n")
+                        new StringBuilder().append("Out of range")
+                                .append(System.lineSeparator())
+                                .append("Please, try again")
+                                .append(System.lineSeparator())
+                                .toString()
                 )
         );
     }
