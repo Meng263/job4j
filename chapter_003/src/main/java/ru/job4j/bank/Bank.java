@@ -30,17 +30,14 @@ public class Bank {
      * Метод ищет пользователя по полю паспорт
      *
      * @param passport паспорт
-     * @return пользователь, если не найден, кидает исключение UserNotFoundException
+     * @return пользователь, если не найден, возвращает Null
      */
-    private User findUserByPassport(String passport) throws UserNotFoundException {
+    private User findUserByPassport(String passport) {
         User result = null;
         for (User user : map.keySet()) {
             if (user.getPassport().equals(passport)) {
                 result = user;
             }
-        }
-        if (result == null) {
-            throw new UserNotFoundException("User not found!");
         }
         return result;
     }
@@ -52,16 +49,13 @@ public class Bank {
      * @param account  аккаунт
      */
     public void addAccountToUser(String passport, Account account) {
-        try {
-            findUserByPassport(passport);
-            findAccountByRequisite(account.getRequisites());
-        } catch (UserNotFoundException unfe) {
-            unfe.printStackTrace();
-        } catch (AccountNotFoundException anfe) {
-            User user = findUserByPassport(passport);
-            map.get(user).add(account);
+        User user = findUserByPassport(passport);
+        Account acc = findAccountByRequisite(account.getRequisites());
+        if ((user != null) && (acc == null)) {
+            map.get(findUserByPassport(passport)).add(account);
         }
     }
+
 
     /**
      * Метод удаляет аккаунт у пользователя
@@ -70,37 +64,34 @@ public class Bank {
      * @param account  аккаунт
      */
     public void deleteAccountFromUser(String passport, Account account) {
-        try {
-            User user = findUserByPassport(passport);
+        User user = findUserByPassport(passport);
+        if (user != null) {
             map.get(user).remove(account);
-        } catch (UserNotFoundException unfe) {
-            unfe.printStackTrace();
         }
     }
 
     /**
-     * Метод возвращает список аккаунтов пользователя
+     * Метод возвращает список аккаунтов пользователя, null, если пользователь не найден
      *
      * @param passport паспорт
      * @return список аккаунтов
      */
     public List<Account> getUserAccounts(String passport) {
         List<Account> result = null;
-        try {
+        User user = findUserByPassport(passport);
+        if (user != null) {
             result = map.get(findUserByPassport(passport));
-        } catch (UserNotFoundException unfe) {
-            unfe.printStackTrace();
         }
         return result;
     }
 
     /**
-     * Метод ищет аккаунт по реквизитам, если не находит, то кидате исключение AccountNotFoundException
+     * Метод ищет аккаунт по реквизитам, если не находит, то возвращает Null
      *
      * @param reqisite реквизиты
      * @return аккаунт
      */
-    private Account findAccountByRequisite(String reqisite) throws AccountNotFoundException {
+    private Account findAccountByRequisite(String reqisite) {
         Account result = null;
         for (User user : map.keySet()) {
             for (Account account : map.get(user)) {
@@ -110,14 +101,11 @@ public class Bank {
                 }
             }
         }
-        if (result == null) {
-            throw new AccountNotFoundException("Account not found!");
-        }
         return result;
     }
 
     /**
-     * Метод осущетсвляет перевод средств с аккаунта на аккаунт, если не найден пользователь или аккаунт, то кидает исключение
+     * Метод осущетсвляет перевод средств с аккаунта на аккаунт
      *
      * @param srcPassport  пасспорт пользователя, с которого списываются средства
      * @param srcRequisite реквизиты, с которого аккаунта происходит перевод
@@ -127,20 +115,16 @@ public class Bank {
      * @return true, если перевод успешен, false если не найден пользователь и/или аккаунт
      */
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite,
-                                 double amount) throws AccountNotFoundException, UserNotFoundException {
+                                 double amount) {
         boolean result = false;
         User sender = null, resiver = null;
         Account senderAcc = null, resiverAcc = null;
-        try {
-            sender = findUserByPassport(srcPassport);
-            resiver = findUserByPassport(destPassport);
-            senderAcc = findAccountByRequisite(srcRequisite);
-            resiverAcc = findAccountByRequisite(dstRequisite);
-        } catch (AccountNotFoundException | UserNotFoundException nfe) {
-            nfe.printStackTrace();
-            return false;
-        }
-        if (senderAcc.getValue() >= amount) {
+        sender = findUserByPassport(srcPassport);
+        resiver = findUserByPassport(destPassport);
+        senderAcc = findAccountByRequisite(srcRequisite);
+        resiverAcc = findAccountByRequisite(dstRequisite);
+        if ((sender != null) && (resiver != null) && (senderAcc != null)
+                && (resiverAcc != null) && (senderAcc.getValue() >= amount)) {
             senderAcc.setValue(senderAcc.getValue() - amount);
             resiverAcc.setValue(resiverAcc.getValue() + amount);
             result = true;
