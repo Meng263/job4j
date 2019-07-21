@@ -71,13 +71,13 @@ public class Bank {
     }
 
     /**
-     * Метод возвращает список аккаунтов пользователя, null, если пользователь не найден
+     * Метод возвращает список аккаунтов пользователя, пустой список, если пользователь не найден
      *
      * @param passport паспорт
      * @return список аккаунтов
      */
     public List<Account> getUserAccounts(String passport) {
-        List<Account> result = null;
+        List<Account> result = new ArrayList<>();
         User user = findUserByPassport(passport);
         if (user != null) {
             result = map.get(findUserByPassport(passport));
@@ -117,19 +117,41 @@ public class Bank {
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite,
                                  double amount) {
         boolean result = false;
-        User sender = null, resiver = null;
-        Account senderAcc = null, resiverAcc = null;
-        sender = findUserByPassport(srcPassport);
-        resiver = findUserByPassport(destPassport);
-        senderAcc = findAccountByRequisite(srcRequisite);
-        resiverAcc = findAccountByRequisite(dstRequisite);
-        if ((sender != null) && (resiver != null) && (senderAcc != null)
-                && (resiverAcc != null) && (senderAcc.getValue() >= amount)) {
+        Account senderAcc = findAccountByRequisiteAndPassport(srcPassport, srcRequisite);
+        Account receiverAcc = findAccountByRequisiteAndPassport(destPassport, dstRequisite);
+        if ((senderAcc != null) && (receiverAcc != null) && (senderAcc.getValue() >= amount)) {
             senderAcc.setValue(senderAcc.getValue() - amount);
-            resiverAcc.setValue(resiverAcc.getValue() + amount);
+            receiverAcc.setValue(receiverAcc.getValue() + amount);
             result = true;
         }
         return result;
+    }
+
+    /**
+     * Метод ищет аккаунт по паспорту и реквизитам.
+     * Если аккаунт не найден, не найден пользователь,
+     * либо аккаунт не пренадлежит пользователю возвращает null
+     *
+     * @param passport  пасспорт
+     * @param requisite реквизиты
+     * @return аккаунт
+     */
+    public Account findAccountByRequisiteAndPassport(String passport, String requisite) {
+        boolean belongs = false;
+        Account account = findAccountByRequisite(requisite);
+        List<Account> list = getUserAccounts(passport);
+        if (account != null) {
+            for (Account elem : list) {
+                if (elem.equals(account)) {
+                    belongs = true;
+                    break;
+                }
+            }
+            if (!belongs) {
+                account = null;
+            }
+        }
+        return account;
     }
 
     /**
