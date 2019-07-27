@@ -3,8 +3,10 @@ package ru.job4j.tracker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class MenuTracker {
+    private final Consumer<String> output;
     /**
      * @param хранит ссылку на объект .
      */
@@ -24,9 +26,10 @@ public class MenuTracker {
      * @param input   объект типа Input
      * @param tracker объект типа Tracker
      */
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, Tracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
 
     /**
@@ -66,7 +69,7 @@ public class MenuTracker {
     public void show() {
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.println(action.info());
+                output.accept(action.info());
             }
         }
     }
@@ -87,13 +90,13 @@ public class MenuTracker {
          */
         @Override
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ Adding a new ticket --------------");
+            output.accept("------------ Adding a new ticket --------------");
             String name = input.ask("Please, enter the ticket Name :");
             String desc = input.ask("Please, enter the ticket Description :");
             Item item = new Item(name, desc, System.currentTimeMillis());
             tracker.add(item);
-            System.out.println("--------- New ticket Id is: " + item.getId() + "-----------");
-            System.out.println();
+            output.accept("--------- New ticket Id is: " + item.getId() + "-----------");
+            output.accept("");
         }
     }
 
@@ -113,8 +116,8 @@ public class MenuTracker {
             for (Item i : tracker.findAll()) {
                 i.show();
             }
-            System.out.println("---------- done -----------");
-            System.out.println();
+            output.accept("---------- done -----------");
+            output.accept("");
         }
     }
 
@@ -128,17 +131,17 @@ public class MenuTracker {
          * Метод редактирует заявку
          */
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ edit ticket --------------");
+            output.accept("------------ edit ticket --------------");
             String id = input.ask("Please, enter the ticket ID to edit: ");
             String name = input.ask("Please, enter the ticket Name to edit: ");
             String desc = input.ask("Please, enter the ticket Description to edit: ");
             Item item = new Item(name, desc, System.currentTimeMillis());
             if (tracker.replace(id, item)) {
-                System.out.println("------------ ticket edited --------------");
+                output.accept("------------ ticket edited --------------");
                 System.out.println();
             } else {
-                System.out.println("---- ticket edited error, try again ----");
-                System.out.println();
+                output.accept("---- ticket edited error, try again ----");
+                output.accept("");
             }
         }
     }
@@ -153,14 +156,14 @@ public class MenuTracker {
          * Метод удаляет заявку
          */
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ delete ticket --------------");
+            output.accept("------------ delete ticket --------------");
             String id = input.ask("Please, enter the ticket ID to delete: ");
             if (tracker.delete(id)) {
-                System.out.println("----------- ticket deleted-------------");
-                System.out.println();
+                output.accept("----------- ticket deleted-------------");
+                output.accept("");
             } else {
-                System.out.println("------- ticket deleted error ----------");
-                System.out.println();
+                output.accept("------- ticket deleted error ----------");
+                output.accept("");
             }
         }
     }
@@ -175,16 +178,16 @@ public class MenuTracker {
          * Метод находит заявку по id и выводит ее в консоль
          */
         public void execute(Input input, Tracker tracker) {
-            System.out.println("---------- find tickets by ID ------------");
+            output.accept("---------- find tickets by ID ------------");
             String id = input.ask("Please, enter the ticket ID to search: ");
             if (tracker.findById(id) != null) {
                 tracker.findById(id).show();
-                System.out.println("---------- search completed -------------");
-                System.out.println();
+                output.accept("---------- search completed -------------");
+                output.accept("");
             } else {
-                System.out.println("---------- item not found -------------");
-                System.out.println("---------- search completed -----------");
-                System.out.println();
+                output.accept("---------- item not found -------------");
+                output.accept("---------- search completed -----------");
+                output.accept("");
             }
         }
 
@@ -200,15 +203,15 @@ public class MenuTracker {
          * Метод находит заявки по имени и выводит их в консоль
          */
         public void execute(Input input, Tracker tracker) {
-            System.out.println("---------- find tickets by Name ------------");
+            output.accept("---------- find tickets by Name ------------");
             String name = input.ask("Please, enter the ticket Name to search: ");
 
             List<Item> items = tracker.findByName(name);
             for (Item i : items) {
                 i.show();
             }
-            System.out.println("---------- search completed -------------");
-            System.out.println();
+            output.accept("---------- search completed -------------");
+            output.accept("");
         }
 
     }

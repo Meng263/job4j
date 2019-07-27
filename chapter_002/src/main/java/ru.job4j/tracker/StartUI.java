@@ -1,12 +1,15 @@
 package ru.job4j.tracker;
 
 
+import java.util.function.Consumer;
+
 /**
  * @version $Id$
  * @since 0.1
  */
 public class StartUI {
 
+    private final Consumer<String> output;
     /**
      * Получение данных от пользователя.
      */
@@ -18,7 +21,7 @@ public class StartUI {
     private final Tracker tracker;
 
     /**
-     *Переключатель, true выход из программы, false программа продолжает работать
+     * Переключатель, true выход из программы, false программа продолжает работать
      */
     private boolean ext = false;
 
@@ -28,15 +31,17 @@ public class StartUI {
     public void switchToExt() {
         ext = true;
     }
+
     /**
      * Конструтор инициализирующий поля.
      *
      * @param input   ввод данных.
      * @param tracker хранилище заявок.
      */
-    public StartUI(Input input, Tracker tracker) {
+    public StartUI(Input input, Tracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
 
     /**
@@ -44,7 +49,7 @@ public class StartUI {
      */
     public void init() {
         int[] range = new int[]{0, 1, 2, 3, 4, 5, 6};
-        MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        MenuTracker menu = new MenuTracker(this.input, this.tracker, output);
         menu.fillActions(this);
         int action = 0;
         do {
@@ -60,6 +65,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker(), System.out::println).init();
     }
 }

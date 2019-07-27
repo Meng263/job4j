@@ -9,7 +9,7 @@ import java.util.function.Function;
  */
 public class FunctionOne {
     /**
-     * Функция считает значения выражения в диапазоне
+     * Функция вычисляет значения выражения в диапазоне
      *
      * @param start начальное значение
      * @param end   конечное значение
