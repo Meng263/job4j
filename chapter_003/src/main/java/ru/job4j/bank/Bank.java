@@ -1,6 +1,8 @@
 package ru.job4j.bank;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Класс, реализует Map пользователей, имеющих аккаунты и имеет метод перевод денег с аккаунта на аккаунт
@@ -33,11 +35,10 @@ public class Bank {
      * @return пользователь, если не найден, возвращает Null
      */
     private User findUserByPassport(String passport) {
+        Optional<User> optionalUser = map.keySet().stream().filter(elem -> elem.getPassport().equals(passport)).findFirst();
         User result = null;
-        for (User user : map.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                result = user;
-            }
+        if (optionalUser.isPresent()) {
+            result = optionalUser.get();
         }
         return result;
     }
@@ -93,13 +94,10 @@ public class Bank {
      */
     private Account findAccountByRequisite(String reqisite) {
         Account result = null;
-        for (User user : map.keySet()) {
-            for (Account account : map.get(user)) {
-                if (account.getRequisites().equals(reqisite)) {
-                    result = account;
-                    break;
-                }
-            }
+        Optional<Account> optionalAccount = map.values().stream().flatMap(Collection::stream)
+                .filter(account -> account.getRequisites().equals(reqisite)).findFirst();
+        if (optionalAccount.isPresent()) {
+            result = optionalAccount.get();
         }
         return result;
     }
@@ -137,22 +135,14 @@ public class Bank {
      * @return аккаунт
      */
     public Account findAccountByRequisiteAndPassport(String passport, String requisite) {
-        boolean belongs = false;
-        Account account = findAccountByRequisite(requisite);
+        final Account account = findAccountByRequisite(requisite);
+        Account result = account;
         List<Account> list = getUserAccounts(passport);
-        if (account != null) {
-            for (Account elem : list) {
-                if (elem.equals(account)) {
-                    belongs = true;
-                    break;
-                }
-            }
-            if (!belongs) {
-                account = null;
-            }
+        if ((account != null) && list.stream().noneMatch(acc -> acc.equals(account))) {
+            result = null;
         }
-        return account;
-    }
+        return result;
+}
 
     /**
      * Переопределенный метод toString, выводит имя пользователя, затем с новой строки на одной строке его аккаунты
