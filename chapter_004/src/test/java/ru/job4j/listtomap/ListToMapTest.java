@@ -1,7 +1,6 @@
 package ru.job4j.listtomap;
 
 import org.junit.Test;
-import ru.job4j.stream.Student;
 import java.util.List;
 import java.util.Map;
 
@@ -11,16 +10,16 @@ import static org.junit.Assert.assertThat;
 public class ListToMapTest {
     @Test
     public void whenGradeA() {
-        Student jora = new Student(80);
-        Student gelo = new Student(10);
-        Student lena = new Student(60);
-        Student lina = new Student(30);
-        Student tanja = new Student(90);
-        Student sveta = new Student(65);
-        Student ivan = new Student(32);
-        Student gena = new Student(61);
-        Student aram = new Student(43);
-        Student yura = new Student(33);
+        Student jora = new Student("Jora", 80);
+        Student gelo = new Student("Gelo", 10);
+        Student lena = new Student("Lena", 60);
+        Student lina = new Student("Lina", 30);
+        Student tanja = new Student("Tanja", 90);
+        Student sveta = new Student("Sveta", 65);
+        Student ivan = new Student("Ivan", 32);
+        Student gena = new Student("Gena", 61);
+        Student aram = new Student("Aram", 43);
+        Student yura = new Student("Yura", 33);
         List<Student> list = List.of(
                 jora,
                 gelo,
@@ -34,18 +33,18 @@ public class ListToMapTest {
                 yura
         );
         ListToMap ltm = new ListToMap();
-        Map<Integer, Student> result = ltm.convert(list);
-        Map<Integer, Student> expected = Map.of(
-                jora.getScore(), jora,
-                gelo.getScore(), gelo,
-                lena.getScore(), lena,
-                lina.getScore(), lina,
-                tanja.getScore(), tanja,
-                sveta.getScore(), sveta,
-                ivan.getScore(), ivan,
-                gena.getScore(), gena,
-                aram.getScore(), aram,
-                yura.getScore(), yura
+        Map<String, Student> result = ltm.convert(list);
+        Map<String, Student> expected = Map.of(
+                jora.getName(), jora,
+                gelo.getName(), gelo,
+                lena.getName(), lena,
+                lina.getName(), lina,
+                tanja.getName(), tanja,
+                sveta.getName(), sveta,
+                ivan.getName(), ivan,
+                gena.getName(), gena,
+                aram.getName(), aram,
+                yura.getName(), yura
                 );
         assertThat(expected, is(result));
     }
