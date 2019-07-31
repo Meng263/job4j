@@ -16,13 +16,13 @@ public class PriorityQueue {
      * @param task задача
      */
     public void put(Task task) {
-        int count = 0;
+        var count = 0;
         if (tasks.isEmpty()) {
             tasks.add(task);
         } else {
-            Iterator<Task> iterator = tasks.listIterator();
+            var iterator = tasks.listIterator();
             while (iterator.hasNext()) {
-                Task element = iterator.next();
+                var element = iterator.next();
                 if (element.getPriority() >= task.getPriority()) {
                     break;
                 }
