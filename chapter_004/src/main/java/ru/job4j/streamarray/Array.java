@@ -7,35 +7,15 @@ import java.util.Arrays;
  */
 public class Array {
     /**
-     * Метод фильтрует массив, оставляет только четные числа
+     * Метод фильтрует массив, оставляет только четные числа, замет возводит в квадрат, затем суммирует числа
+     *
      * @param arr массив
-     * @return отфильтрованный массив
+     * @return итоговая сумма
      */
-    public int[] filterEven(int[] arr) {
+    public int doStreamArray(int[] arr) {
         return Arrays.stream(arr)
                 .filter(elem -> elem % 2 == 0)
-                .toArray();
-    }
-
-    /**
-     * Метод возводит каждый элемент массива в квадрат
-     * @param arr массив
-     * @return массив квадратов
-     */
-    public int[] squareOfNumbers(int[] arr) {
-        return Arrays
-                .stream(arr).map(elem -> elem * elem)
-                .toArray();
-    }
-
-    /**
-     * Метод суммирует все элементы массива
-     * @param arr массив
-     * @return сумма элементов
-     */
-    public int sumOfNumbers(int[] arr) {
-        return Arrays
-                .stream(arr)
+                .map(elem -> elem * elem)
                 .reduce(0, Integer::sum);
     }
 }
