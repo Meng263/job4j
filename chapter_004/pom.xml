@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>chapter_004</artifactId>
+    <packaging>pom</packaging>
     <build>
         <plugins>
             <plugin>
@@ -34,4 +35,7 @@
             </plugin>
         </plugins>
     </build>
+    <modules>
+        <module>../chapter_005</module>
+    </modules>
 </project>
