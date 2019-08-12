@@ -15,7 +15,7 @@ public class JaggedArrayIterator implements Iterator<java.lang.Integer> {
 
     /**
      * Метод проверяет есть ли следующий элемент
-     * @return
+     * @return true, если элемет есть
      */
     @Override
     public boolean hasNext() {
@@ -30,7 +30,7 @@ public class JaggedArrayIterator implements Iterator<java.lang.Integer> {
 
     /**
      * Метод возвращает текущий элемент и сдвигает указатель на следующую ячейку
-     * @return
+     * @return текущий элемент
      */
     @Override
     public java.lang.Integer next() {
