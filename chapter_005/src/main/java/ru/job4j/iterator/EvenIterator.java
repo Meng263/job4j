@@ -7,39 +7,26 @@ public class EvenIterator implements Iterator<Integer> {
     /**
      * каретка
      */
-    private int position;
+
+    private int position = -1;
     /**
      * массив занчений
      */
+
     private final int[] values;
     /**
-     * Существует ли следующий элемент
+     * Вызывался ли метод Next, чтобы при многократном вызове метода hasNext не сдигать каретку лишний раз
      */
-    private boolean isNextElemExists = false;
+
+    private boolean isNext = false;
 
     /**
-     * Конструктор, при создании объекта проверяем существует ли первый элемент и инициализирует поле isNextElemExists
+     * Конструктор
      *
      * @param values массив
      */
     public EvenIterator(int[] values) {
         this.values = values;
-        checkEvenNextElem(0);
-    }
-
-    /**
-     * Метод проверяет есть ли следующий элемент, и сдвигает каретку если он есть.
-     *
-     * @param displacement смещение первой итерации цикла
-     */
-    private void checkEvenNextElem(int displacement) {
-        for (int i = this.position + displacement; i < values.length; i++) {
-            if (values[i] % 2 == 0) {
-                this.position = i;
-                this.isNextElemExists = true;
-                break;
-            }
-        }
     }
 
     /**
@@ -49,7 +36,21 @@ public class EvenIterator implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-        return this.isNextElemExists;
+        /**
+         * Существует ли следующий элемент
+         */
+        boolean result = false;
+        for (int i = this.position + 1; i < values.length; i++) {
+            if (values[i] % 2 == 0) {
+                result = true;
+                if (isNext) {
+                    this.position = i;
+                    isNext = false;
+                }
+                break;
+            }
+        }
+        return result;
     }
 
     /**
@@ -60,15 +61,13 @@ public class EvenIterator implements Iterator<Integer> {
      */
     @Override
     public Integer next() {
-        if (!this.isNextElemExists) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        int result = this.values[position];
-        this.isNextElemExists = false;
-        checkEvenNextElem(1);
-        if (!this.isNextElemExists) {
+        this.isNext = true;
+        if (!hasNext()) {
             this.position++;
         }
-        return result;
+        return this.values[position];
     }
 }
