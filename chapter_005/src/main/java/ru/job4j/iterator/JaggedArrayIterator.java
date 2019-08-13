@@ -1,5 +1,7 @@
 package ru.job4j.iterator;
+
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Итератор для двумерного массива
@@ -15,6 +17,7 @@ public class JaggedArrayIterator implements Iterator<java.lang.Integer> {
 
     /**
      * Метод проверяет есть ли следующий элемент
+     *
      * @return true, если элемет есть
      */
     @Override
@@ -30,10 +33,14 @@ public class JaggedArrayIterator implements Iterator<java.lang.Integer> {
 
     /**
      * Метод возвращает текущий элемент и сдвигает указатель на следующую ячейку
+     *
      * @return текущий элемент
      */
     @Override
     public java.lang.Integer next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
         int result = values[i][j];
         j++;
         if (j >= values[i].length) {
