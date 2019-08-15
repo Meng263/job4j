@@ -7,13 +7,12 @@ import java.util.NoSuchElementException;
  * Итератор для двумерного массива
  */
 public class JaggedArrayIterator implements Iterator<java.lang.Integer> {
+    private int[][] values;
+    private int i = 0, j = 0;
 
     public JaggedArrayIterator(int[][] values) {
         this.values = values;
     }
-
-    private int[][] values;
-    private int i = 0, j = 0;
 
     /**
      * Метод проверяет есть ли следующий элемент
