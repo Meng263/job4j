@@ -35,14 +35,14 @@ public class SimpleLinkedList<E> {
     /**
      * Метод удаляет первый элемент в списке
      *
-     * @return true, если элемент удален
+     * @return значение удаляемого элемента, null если нет элемента для удаления
      */
-    public boolean delete() {
-        boolean result = false;
+    public E delete() {
+        E result = null;
         if (!isEmpty()) {
+            result = this.first.data;
             this.first = this.first.next;
             this.size--;
-            result = true;
         }
         return result;
     }

@@ -29,12 +29,11 @@ public class SimpleLinkedListTest {
 
     @Test
     public void whenDeleteFirstElementThenSizeResultTwo() {
-        assertThat(list.delete(), is(true));
+        assertThat(list.delete(), is(3));
         assertThat(list.getSize(), is(2));
         assertThat(list.get(0), is(2));
         assertThat(list.get(1), is(1));
-        assertThat(list.delete(), is(true));
-        assertThat(list.delete(), is(true));
-        assertThat(list.delete(), is(false));
+        assertThat(list.delete(), is(2));
+        assertThat(list.delete(), is(1));
     }
 }
