@@ -30,7 +30,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return index < values.length;
+                return index < count;
             }
 
             @Override
@@ -60,7 +60,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param model значение, на кторое нужно заменить
      */
     public void set(int index, T model) {
-        if (index > values.length - 1) {
+        if (index > count) {
             throw new NoSuchElementException();
         }
         values[index] = model;
@@ -71,7 +71,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index индекс удаляемого элемента
      */
     public void remove(int index) {
-        if (index > values.length - 1) {
+        if (index > count) {
             throw new NoSuchElementException();
         }
         for (int i = index; i < values.length - 1; i++) {
@@ -85,7 +85,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @return значение
      */
     public T get(int index) {
-        if (index > values.length - 1) {
+        if (index > count) {
             throw new NoSuchElementException();
         }
         return (T) values[index];

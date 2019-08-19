@@ -15,7 +15,7 @@ public class SimpleArrayTest {
 
     @Before
     public void setUp() {
-        simpleArray = new SimpleArray<String>(3);
+        simpleArray = new SimpleArray<String>(10);
         simpleArray.add("5");
         simpleArray.add("3");
         simpleArray.add("2");
@@ -24,14 +24,14 @@ public class SimpleArrayTest {
 
     @Test(expected = NoSuchElementException.class)
     public void whenAddElemIntegerThenGetInteger() {
-        SimpleArray<Integer> integerSimpleArray = new SimpleArray<Integer>(3);
+        SimpleArray<Integer> integerSimpleArray = new SimpleArray<>(10);
         integerSimpleArray.add(5);
         integerSimpleArray.add(3);
         integerSimpleArray.add(2);
         assertThat(integerSimpleArray.get(0), is(5));
         assertThat(integerSimpleArray.get(1), is(3));
         assertThat(integerSimpleArray.get(2), is(2));
-        integerSimpleArray.add(10);
+        integerSimpleArray.get(5);
     }
 
     @Test
