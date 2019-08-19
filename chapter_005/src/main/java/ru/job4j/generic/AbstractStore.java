@@ -1,5 +1,7 @@
 package ru.job4j.generic;
 
+import java.util.Iterator;
+
 /**
  * @param <T> тип модели
  * @author Oleg Sivakov
@@ -42,8 +44,9 @@ public class AbstractStore<T extends Base> implements Store<T> {
     @Override
     public boolean replace(String id, T model) {
         boolean result = false;
-        if (findIndexById(id) != -1) {
-            values.set(findIndexById(id), model);
+        int index = findIndexById(id);
+        if (index != -1) {
+            values.set(index, model);
             result = true;
         }
         return result;
@@ -58,8 +61,9 @@ public class AbstractStore<T extends Base> implements Store<T> {
     @Override
     public boolean delete(String id) {
         boolean result = false;
-        if (findIndexById(id) != -1) {
-            values.remove(findIndexById(id));
+        int index = findIndexById(id);
+        if (index != -1) {
+            values.remove(index);
             result = true;
         }
         return result;
@@ -74,8 +78,9 @@ public class AbstractStore<T extends Base> implements Store<T> {
     @Override
     public T findById(String id) {
         T result = null;
-        if (findIndexById(id) != -1) {
-            result = values.get(findIndexById(id));
+        int index = findIndexById(id);
+        if (index != -1) {
+            result = values.get(index);
         }
         return result;
     }
@@ -92,6 +97,7 @@ public class AbstractStore<T extends Base> implements Store<T> {
         for (T value : values) {
             if (value.getId().equals(id)) {
                 result = counter;
+                break;
             }
             counter++;
         }
