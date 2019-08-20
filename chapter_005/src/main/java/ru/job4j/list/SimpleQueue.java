@@ -8,7 +8,6 @@ package ru.job4j.list;
 public class SimpleQueue<T> {
     private SimpleStack<T> mainStack;
     private SimpleStack<T> pollStack;
-    private int position;
 
     /**
      * Конструктор
@@ -20,23 +19,17 @@ public class SimpleQueue<T> {
 
     /**
      * Метод извлекает первый элемент из очереди.
-     * Для этого он извлекает все элементы из mainStack и вставляет в pollStack,
-     * тем самым стек переворачивается.
-     * Первый извлеченный элемент из pollStack оказывается первым для очереди.
-     * Уменьшается счетчик и все элементы добавляются в mainStack обратно.
      *
      * @return значение
      */
     public T poll() {
-        for (int i = 0; i < position; i++) {
-            pollStack.push(mainStack.poll());
+        if (pollStack.isEmpty()) {
+            int mainStackSize = mainStack.size();
+            for (int i = 0; i < mainStackSize; i++) {
+                pollStack.push(mainStack.poll());
+            }
         }
-        this.position--;
-        T result = pollStack.poll();
-        for (int i = 0; i < position; i++) {
-            mainStack.push(pollStack.poll());
-        }
-        return result;
+        return pollStack.poll();
     }
 
     /**
@@ -46,11 +39,23 @@ public class SimpleQueue<T> {
      */
     public void push(T value) {
         this.mainStack.push(value);
-        this.position++;
     }
 
-    private SimpleStack<T> reverseStack() {
+    /**
+     * Метод возвращает размер очереди
+     *
+     * @return размер очереди
+     */
+    public int size() {
+        return mainStack.size() + pollStack.size();
+    }
 
-        return null;
+    /**
+     * Метод возвращает true, если очередь пуста
+     *
+     * @return true, если очередь пуста
+     */
+    public boolean isEmpty() {
+        return this.size() == 0;
     }
 }
