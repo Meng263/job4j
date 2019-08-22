@@ -17,10 +17,10 @@ public class CycleLinkedList {
         }
     }
 
-   private Node<Integer> first = new Node(1);
-   private Node<Integer> two = new Node(2);
-   private Node<Integer> third = new Node(3);
-   private Node<Integer> four = new Node(4);
+   private Node<Integer> first = new Node<>(1);
+   private Node<Integer> two = new Node<>(2);
+   private Node<Integer> third = new Node<>(3);
+   private Node<Integer> four = new Node<>(4);
 
     /**
      * Инициализация списка с зацикленностю
