@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 /**
  * Сет на основе списка на массиве
+ *
  * @param <E> тип хранимых данных
  */
 public class SimpleSet<E> implements Iterable<E> {
@@ -22,18 +23,30 @@ public class SimpleSet<E> implements Iterable<E> {
 
     /**
      * Метод добавляет элемент в сет, сначала проверив его на уникальность
+     *
      * @param value значение
      */
     public void add(E value) {
-        boolean isDuplicate = false;
-        for (E elem : list) {
-            if (elem.equals(value)) {
-                isDuplicate = true;
-                break;
-            }
-        }
-        if (!isDuplicate) {
+        if (!isDuplicate(value)) {
             list.add(value);
         }
     }
+
+    /**
+     * Метод проверяет элементы на уникальность
+     *
+     * @param value
+     * @return
+     */
+    private boolean isDuplicate(E value) {
+        boolean result = false;
+        for (E elem : list) {
+            if (elem != null && elem.equals(value) || elem == null && value == null) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
 }
+

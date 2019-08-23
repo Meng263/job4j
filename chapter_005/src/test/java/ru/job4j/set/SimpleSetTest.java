@@ -29,4 +29,20 @@ public class SimpleSetTest {
         }
         assertThat(expected, is(result));
     }
+
+    @Test
+    public void whenAddNullElementsThanSetContainsNull() {
+        SimpleSet<String> set = new SimpleSet<>();
+        set.add("1");
+        set.add(null);
+        set.add("2");
+        set.add("1");
+        set.add(null);
+        List<String> expected = new ArrayList<String>(Arrays.asList("1", null, "2"));
+        List<String> result = new ArrayList<>();
+        for (String elem : set) {
+            result.add(elem);
+        }
+        assertThat(expected, is(result));
+    }
 }
