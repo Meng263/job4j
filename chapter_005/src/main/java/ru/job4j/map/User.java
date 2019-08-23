@@ -42,6 +42,12 @@ public class User {
         this.birthday = birthday;
     }
 
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
+    }
+
     @Override
     public String toString() {
         return "name = '" + name + '\''
