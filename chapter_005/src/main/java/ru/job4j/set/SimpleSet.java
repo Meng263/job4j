@@ -47,6 +47,7 @@ public class SimpleSet<E> implements Iterable<E> {
             }
         }
         return result;
+
     }
 }
 
