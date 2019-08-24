@@ -57,6 +57,11 @@ public class User {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
+    }
+
+    @Override
     public String toString() {
         return "name = '" + name + '\''
                 + ", children = " + children
