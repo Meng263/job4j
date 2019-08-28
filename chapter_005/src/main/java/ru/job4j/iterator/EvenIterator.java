@@ -17,7 +17,6 @@ public class EvenIterator implements Iterator<Integer> {
     /**
      * Вызывался ли метод Next, чтобы при многократном вызове метода hasNext не сдигать каретку лишний раз
      */
-
     private boolean isNext = false;
 
     /**
