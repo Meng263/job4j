@@ -73,6 +73,7 @@ public class HashMapTest {
     @Test
     public void hasNextNextSequentialInvocation() {
         assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next(), is("Первый"));
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next(), is("Второй"));
