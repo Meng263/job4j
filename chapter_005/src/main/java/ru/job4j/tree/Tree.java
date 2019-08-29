@@ -70,6 +70,24 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     /**
+     * Метод проверяет являктся ли дерево бинарным
+     * @return true, если дерево бинарное
+     */
+    public boolean isBinary() {
+        boolean result = true;
+        Iterator<E> iterator = this.iterator();
+        Optional<Node<E>> knot;
+        while (iterator.hasNext()) {
+            knot = findBy(iterator.next());
+            if (knot.isPresent() && knot.get().leaves().size() > 2) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Итератор для дерева
      *
      * @return итератор
