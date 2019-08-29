@@ -8,8 +8,8 @@ import java.util.Iterator;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class HashMapTest {
-    HashMap<Integer, String> map = new HashMap<>();
+public class SimpleHashMapTest {
+    SimpleHashMap<Integer, String> map = new SimpleHashMap<>();
     Iterator<String> iterator;
 
     @Before
@@ -51,23 +51,28 @@ public class HashMapTest {
 
     @Test
     public void whenSizeEqualsMoreThanThresholdThenGrowTheTable() {
-        map.insert(4, "");
-        map.insert(5, "");
-        map.insert(6, "");
+        map.insert(4, "четвертый");
+        map.insert(4040, "четыре сорок");
+        map.insert(5, "пятый");
+        map.insert(6, "шестой");
         map.insert(7, "седьмой");
-        map.insert(8, "");
-        map.insert(9, "");
+        map.insert(8, "восьмой");
+        map.insert(9, "девятый");
         map.insert(10, "десятый");
         assertThat(map.get(1), is("Первый"));
         assertThat(map.get(2), is("Второй"));
         assertThat(map.get(3), is("Третий"));
-        assertThat(map.get(4), is(""));
-        assertThat(map.get(5), is(""));
-        assertThat(map.get(6), is(""));
+        assertThat(map.get(4), is("четвертый"));
+        assertThat(map.get(5), is("пятый"));
+        assertThat(map.get(6), is("шестой"));
         assertThat(map.get(7), is("седьмой"));
-        assertThat(map.get(8), is(""));
-        assertThat(map.get(9), is(""));
+        assertThat(map.get(8), is("восьмой"));
+        assertThat(map.get(9), is("девятый"));
         assertThat(map.get(10), is("десятый"));
+        assertThat(map.get(1), is("Первый"));
+        assertThat(map.get(2), is("Второй"));
+        assertThat(map.get(3), is("Третий"));
+        assertThat(map.get(4040), is("четыре сорок"));
     }
 
     @Test

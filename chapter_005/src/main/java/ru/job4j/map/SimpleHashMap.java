@@ -1,6 +1,5 @@
 package ru.job4j.map;
 
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -11,9 +10,9 @@ import java.util.NoSuchElementException;
  * @param <K> ключ
  * @param <V> значение
  */
-public class HashMap<K, V> implements Iterable<V> {
+public class SimpleHashMap<K, V> implements Iterable<V> {
     /**
-     * Массив, которая хранит пары ключ-значение, индекс вычисляется хеш-функцией
+     * Массив, который хранит пары ключ-значение, индекс вычисляется хеш-функцией
      */
     private Object[] table;
     /**
@@ -35,7 +34,7 @@ public class HashMap<K, V> implements Iterable<V> {
     private int modCount;
 
     /**
-     * Итератор
+     * Итератор значений
      *
      * @return итератор
      */
@@ -77,7 +76,7 @@ public class HashMap<K, V> implements Iterable<V> {
     /**
      * Конструктор
      */
-    public HashMap() {
+    public SimpleHashMap() {
         this.table = new Entry[INIT_TABLE_SIZE];
         size = 0;
         modCount = 0;
@@ -113,7 +112,7 @@ public class HashMap<K, V> implements Iterable<V> {
 
     /**
      * Вставка элемента в карту
-     * Если после вставки кол-во элементов в карте превышает предельное количество элементов,
+     * Если кол-во элементов в карте превышает предельное количество элементов,
      * размер хэш-таблицы увеличивается вдвое
      *
      * @param key   ключ
@@ -121,10 +120,13 @@ public class HashMap<K, V> implements Iterable<V> {
      * @return true, если вставка успешна
      */
     public boolean insert(K key, V value) {
+        if (size >= table.length * LOAD_FACTOR) {
+            grow();
+        }
         int keyHashcode = key != null ? key.hashCode() : 0;
         boolean result = false;
         int index = 0;
-        index = indexFor(hash(keyHashcode), table.length);
+        index = indexFor(key, table.length);
         Entry<K, V> elem;
         if (table[index] == null) {
             table[index] = new Entry<>(key, value);
@@ -142,18 +144,24 @@ public class HashMap<K, V> implements Iterable<V> {
                 modCount++;
             }
         }
-        if (size >= table.length * LOAD_FACTOR) {
-            grow();
-        }
+
         return result;
     }
 
     /**
-     * Метод удваивает кол-во элементов массива
+     * Метод удваивает кол-во элементов таблицы
+     * и пересчитывает позиции элементов в новой таблице
      */
     private void grow() {
         int newLength = table.length * 2;
-        table = Arrays.copyOf(table, newLength);
+        Object[] newTable = new Object[newLength];
+        for (Object elem : table) {
+            if (elem != null) {
+                Entry<K, V> entry = (Entry<K, V>) elem;
+                newTable[indexFor(entry.getKey(), newLength)] = elem;
+            }
+        }
+        table = newTable;
     }
 
     /**
@@ -164,8 +172,7 @@ public class HashMap<K, V> implements Iterable<V> {
      */
     public V get(K key) {
         V result = null;
-        int keyHashcode = key != null ? key.hashCode() : 0;
-        int index = indexFor(hash(keyHashcode), table.length);
+        int index = indexFor(key, table.length);
         Entry<K, V> elem;
         elem = (Entry<K, V>) table[index];
         if (elem != null) {
@@ -182,8 +189,7 @@ public class HashMap<K, V> implements Iterable<V> {
      */
     public boolean delete(K key) {
         boolean result = false;
-        int keyHashcode = key != null ? key.hashCode() : 0;
-        int index = indexFor(hash(keyHashcode), table.length);
+        int index = indexFor(key, table.length);
         Entry<K, V> elem = (Entry<K, V>) table[index];
         if (elem != null) {
             table[index] = null;
@@ -205,13 +211,14 @@ public class HashMap<K, V> implements Iterable<V> {
     }
 
     /**
-     * Метод вычисляет индекс по значеню хеш-функции
+     * Метод вычисляет индекс по ключу
      *
-     * @param hash        результат хеш-функции
+     * @param key         ключ
      * @param tableLength размер таблицы
      * @return индекс
      */
-    private static int indexFor(int hash, int tableLength) {
-        return hash & (tableLength - 1);
+    private static int indexFor(Object key, int tableLength) {
+        int hashCode = (key != null) ? key.hashCode() : 0;
+        return hash(hashCode) & (tableLength - 1);
     }
 }
