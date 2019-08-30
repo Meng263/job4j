@@ -36,7 +36,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     public boolean add(E parent, E child) {
         boolean result = false;
         Optional<Node<E>> knot = findBy(parent);
-        if (knot.isPresent()) {
+        if (knot.isPresent() && findBy(child).isEmpty()) {
             knot.get().add(new Node<>(child));
             result = true;
             modCount++;
