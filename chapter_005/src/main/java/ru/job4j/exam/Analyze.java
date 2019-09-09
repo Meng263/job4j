@@ -1,8 +1,6 @@
 package ru.job4j.exam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Определение разницы между начальным состояние списка и измененным.
@@ -12,29 +10,26 @@ public class Analyze {
      * Метод анализирует изменинеие в списке
      * Возвращает экземляр класса Info, который содержит информацию о кол-ве
      * добавленных элементах, измененных элементах, удаленных элементах
+     *
      * @param previous начальный список
-     * @param current измененнный список
+     * @param current  измененнный список
      * @return экземляр класса Info
      */
     public Info diff(List<User> previous, List<User> current) {
-        int added = 0, changed = 0, deleted = 0;
-        List<User> change = new ArrayList<>(current);
-        for (User userPrevious : previous) {
-            boolean isDeleted = true;
-            for (User userCurrent : current) {
-                if (userCurrent.id == userPrevious.id) {
-                    change.remove(userCurrent);
-                    isDeleted = false;
-                    if (!userCurrent.equals(userPrevious)) {
-                        changed++;
-                    }
+        int added = current.size(), changed = 0, deleted = 0;
+        Map<Integer, User> map = new HashMap<>();
+        current.forEach(user -> map.put(user.getId(), user));
+        for (User user : previous) {
+            User currentUser = map.get(user.getId());
+            if (currentUser == null) {
+                deleted++;
+            } else if (currentUser.getId() == user.getId()) {
+                added--;
+                if (!currentUser.equals(user)) {
+                    changed++;
                 }
             }
-            if (isDeleted) {
-                deleted++;
-            }
         }
-        added = change.size();
         return new Info(added, changed, deleted);
     }
 
@@ -91,18 +86,6 @@ public class Analyze {
             this.added = added;
             this.changed = changed;
             this.deleted = deleted;
-        }
-
-        public int getAdded() {
-            return added;
-        }
-
-        public int getChanged() {
-            return changed;
-        }
-
-        public int getDeleted() {
-            return deleted;
         }
 
         @Override

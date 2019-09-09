@@ -35,7 +35,4 @@
             </plugin>
         </plugins>
     </build>
-    <modules>
-        <module>../chapter_005</module>
-    </modules>
 </project>

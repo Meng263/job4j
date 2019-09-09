@@ -30,11 +30,11 @@ public class AnalyzeTest {
         current.add(new Analyze.User(25, "Fenix4"));
         current.add(new Analyze.User(26, "Fenix5"));
         current.remove(1);
-        current.remove(2);
+        current.remove(1);
         current.set(0, new Analyze.User(11, "Tata"));
         current.set(1, new Analyze.User(4, "Pavel"));
         Analyze.Info expected = new Analyze.Info(5, 2, 2);
         Analyze.Info result = analyze.diff(previous, current);
-        assertThat(expected, is(result));
+       assertThat(expected, is(result));
     }
 }
