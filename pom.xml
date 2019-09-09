@@ -23,7 +23,6 @@
         <module>puzzle</module>
         <module>chess</module>
         <module>tictactoe</module>
-
     </modules>
     <build>
         <plugins>
