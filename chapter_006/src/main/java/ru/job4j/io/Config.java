@@ -27,7 +27,6 @@ public class Config {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             read.lines().forEach(line -> {
                 if (!line.isEmpty()
-                        && !line.startsWith("//")
                         && !line.startsWith("/*")
                         && !line.startsWith("*")
                         && !line.startsWith("#")
