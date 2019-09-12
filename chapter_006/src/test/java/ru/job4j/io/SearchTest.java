@@ -39,6 +39,8 @@ public class SearchTest {
                 File file = new File(secondChild, i + ".odt");
                 file.createNewFile();
                 expected.add(file);
+                file = new File(secondChild, i * 3 + ".doc");
+                file.createNewFile();
             }
             result = search.searchFiles(root.getPath(), new ArrayList<>(Arrays.asList("txt", "log", "odt")));
         } catch (Exception e) {
