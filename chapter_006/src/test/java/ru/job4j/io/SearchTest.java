@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -43,6 +44,8 @@ public class SearchTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Collections.sort(result);
+        Collections.sort(expected);
         assertThat(result, is(expected));
     }
 }
