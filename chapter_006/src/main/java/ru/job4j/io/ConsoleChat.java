@@ -12,6 +12,9 @@ import java.util.List;
  * Запись диалога включая, слова-команды стоп/продолжить/закончить запиписываются в текстовый лог.
  */
 public class ConsoleChat {
+    final static String EXIT = "закончить";
+    final static String STOP = "стоп";
+    final static String CONT = "продолжить";
     /**
      * Метод содержит логику чата
      *
@@ -25,8 +28,7 @@ public class ConsoleChat {
         File fileLog = new File(root, "log.txt");
         fileLog.createNewFile();
         FileOutputStream fileOutputStream = new FileOutputStream(fileLog);
-        File fileChatWords = new File("chapter_006" + File.separator
-                + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "chatWords.txt");
+        File fileChatWords = new File("chapter_006/src/main/resources/chatWords.txt");
         BufferedReader readerFile = new BufferedReader(new FileReader(fileChatWords));
         List<String> listWords = new ArrayList<>();
         String line = readerFile.readLine();
@@ -36,17 +38,14 @@ public class ConsoleChat {
         }
         readerFile.close();
         String incomingMassage = "";
-        final String exit = "закончить";
-        final String stop = "стоп";
-        final String cont = "продолжить";
         boolean isSpeak = true;
-        while (!incomingMassage.equals(exit)) {
+        while (!incomingMassage.equals(EXIT)) {
             incomingMassage = readerConsole.readLine();
             fileOutputStream.write((incomingMassage + System.lineSeparator()).getBytes());
-            if (incomingMassage.equals(stop) || incomingMassage.equals(exit)) {
+            if (incomingMassage.equals(STOP) || incomingMassage.equals(EXIT)) {
                 isSpeak = false;
             }
-            if (incomingMassage.equals(cont)) {
+            if (incomingMassage.equals(CONT)) {
                 isSpeak = true;
             }
             if (isSpeak) {
