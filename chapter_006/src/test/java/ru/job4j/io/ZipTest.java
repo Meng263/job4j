@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -15,6 +16,16 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class ZipTest {
+    @Test
+    public void whenSendParamThanGetParam() {
+        Map<String, String> expected = Map.of("-d", System.getProperty("java.io.tmpdir") + "/root",
+                "-e", "*.doc", "-o", System.getProperty("java.io.tmpdir") + "/project.zip");
+        String[] args = new String[]{"-d", System.getProperty("java.io.tmpdir") + "/root",
+                "-e", "*.doc", "-o", System.getProperty("java.io.tmpdir") + "/project.zip"};
+        Map<String, String> result = Zip.Args.getParam(args);
+        assertThat(expected, is(result));
+    }
+
     @Test
     public void whenPackFilesThanThisFilesContainsInZipFile() {
         List<File> result = new ArrayList<>();
@@ -44,12 +55,12 @@ public class ZipTest {
                 file = new File(secondChild, i * 3 + ".doc");
                 file.createNewFile();
             }
-            Zip.main(new String[]{"-d", System.getProperty("java.io.tmpdir") + File.separator + "root",
-                   "-e", "*.doc", "-o", System.getProperty("java.io.tmpdir") + File.separator + "project.zip"});
+            Zip.main(new String[]{"-d", System.getProperty("java.io.tmpdir") + "/root",
+                   "-e", "*.doc", "-o", System.getProperty("java.io.tmpdir") + "/project.zip"});
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(System.getProperty("java.io.tmpdir") + File.separator + "project.zip"))) {
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(System.getProperty("java.io.tmpdir") + "/project.zip"))) {
             ZipEntry entry;
             String fileName;
             while ((entry = zis.getNextEntry()) != null) {

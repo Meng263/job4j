@@ -93,13 +93,13 @@ public class Zip {
     /**
      * Класс содержит статический метод для парсинга параметров запуска
      */
-    private static class Args {
+     static class Args {
         /**
          * Метод парсит параметры запуска и возвращает в виде Map
          * @param args параметры запуска
          * @return Map ключ строка с префиксом "-", значение следующая строка без префикса
          */
-        private static Map<String, String> getParam(String[] args) {
+         static Map<String, String> getParam(String[] args) {
             Map<String, String> map = new HashMap<>();
             String keyTmp = "";
             String valueTmp = "";
