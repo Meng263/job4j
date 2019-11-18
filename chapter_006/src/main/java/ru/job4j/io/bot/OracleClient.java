@@ -35,22 +35,23 @@ public class OracleClient {
         } else {
             socket = new Socket(this.ipAddress, 5000);
         }
-        PrintWriter outStream = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        Scanner console = new Scanner(System.in);
-        String request;
-        String response;
-        do {
-            request = console.nextLine();
-            outStream.println(request);
-            response = inStream.readLine();
-            while (response != null && !response.isEmpty()) {
-                System.out.println(response);
+        try (PrintWriter outStream = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+            Scanner console = new Scanner(System.in);
+            String request;
+            String response;
+            do {
+                request = console.nextLine();
+                outStream.println(request);
                 response = inStream.readLine();
-            }
-        } while (!EXIT.equalsIgnoreCase(request));
-        outStream.close();
-        inStream.close();
+                while (response != null && !response.isEmpty()) {
+                    System.out.println(response);
+                    response = inStream.readLine();
+                }
+            } while (!EXIT.equalsIgnoreCase(request));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

@@ -35,31 +35,28 @@ public class OracleServer {
         }
     }
 
-    void start() throws IOException {
-        PrintWriter outStream = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        String response;
-        do {
-            response = inStream.readLine();
-            System.out.println(response);
-            if (HELLO_ORACLE.equalsIgnoreCase(response)) {
-                outStream.println("Hello, dear friend, I'm a oracle.");
-                outStream.println();
-            } else if (!(EXIT.equalsIgnoreCase(response))) {
-                outStream.println("I'm don't understand");
-                outStream.println();
-            }
-        } while (!(EXIT.equals(response)));
-        outStream.close();
-        inStream.close();
+    void start() {
+        try (PrintWriter outStream = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+            String response;
+            do {
+                response = inStream.readLine();
+                System.out.println(response);
+                if (HELLO_ORACLE.equalsIgnoreCase(response)) {
+                    outStream.println("Hello, dear friend, I'm a oracle.");
+                    outStream.println();
+                } else if (!(EXIT.equalsIgnoreCase(response))) {
+                    outStream.println("I'm don't understand");
+                    outStream.println();
+                }
+            } while (!(EXIT.equals(response)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
         OracleServer server = new OracleServer(5000);
-        try {
-            server.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        server.start();
     }
 }

@@ -17,32 +17,35 @@ public class OracleServerTest {
     public static final String LN = System.lineSeparator();
 
     @Test
-    public void whenRequestExitThanResponseEmptyAndExit() throws IOException {
+    public void whenRequestExitThanResponseEmptyAndExit() {
         serverTest("exit", "");
     }
 
     @Test
-    public void whenRequestHelloThanResponseHello() throws IOException {
+    public void whenRequestHelloThanResponseHello() {
         String request = Joiner.on(LN).join("hello oracle", "exit");
         String expectedResponse = "Hello, dear friend, I'm a oracle.".concat(LN).concat(LN);
         serverTest(request, expectedResponse);
     }
 
     @Test
-    public void whenRequestUnsupportedThanResponseDontUnderstand() throws IOException {
+    public void whenRequestUnsupportedThanResponseDontUnderstand() {
         String request = Joiner.on(LN).join("another string", "exit");
         String expectedResponse = "I'm don't understand".concat(LN).concat(LN);
         serverTest(request, expectedResponse);
     }
 
-    private void serverTest(String request, String expectedResponse) throws IOException {
+    private void serverTest(String request, String expectedResponse) {
         Socket socket = mock(Socket.class);
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        ByteArrayInputStream inStream = new ByteArrayInputStream(request.getBytes());
-        when(socket.getInputStream()).thenReturn(inStream);
-        when(socket.getOutputStream()).thenReturn(outStream);
-        OracleServer server = new OracleServer(socket);
-        server.start();
-        assertThat(outStream.toString(), is(expectedResponse));
+        try (ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+             ByteArrayInputStream inStream = new ByteArrayInputStream(request.getBytes())) {
+            when(socket.getInputStream()).thenReturn(inStream);
+            when(socket.getOutputStream()).thenReturn(outStream);
+            OracleServer server = new OracleServer(socket);
+            server.start();
+            assertThat(outStream.toString(), is(expectedResponse));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
