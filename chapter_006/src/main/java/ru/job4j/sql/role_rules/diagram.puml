@@ -39,12 +39,11 @@ not_null(rule_id) INTEGER
 
 Table(rules, "Rules\n(Rules of roles)") {
 primary_key(id) INTEGER
-not_null(rule_title) VARCHAR[64]
+not_null(desc) VARCHAR[64]
 }
 
 Table(item, "Item\n(Items)") {
-primary_key(item_id) INTEGER
-not_null(title) VARCHAR[64]
+primary_key(id) INTEGER
 not_null(desc) VARCHAR[64]
 not_null(user_id) INTEGER
 not_null(comment_id) INTEGER
@@ -57,17 +56,17 @@ not_null(uncomment) BLOB
 }
 
 Table(attached, "Attached_files\n(Attached_files for items)") {
-primary_key(user_id) INTEGER
+primary_key(id) INTEGER
 not_null(path) VARCHAR[256]
 }
 
 Table(state, "State\n(State of items)") {
-primary_key(user_id) INTEGER
+primary_key(id) INTEGER
 not_null(desc) VARCHAR[64]
 }
 
 Table(category, "Category\n(Category of items)") {
-primary_key(user_id) INTEGER
+primary_key(id) INTEGER
 not_null(desc) VARCHAR[256]
 }
 
