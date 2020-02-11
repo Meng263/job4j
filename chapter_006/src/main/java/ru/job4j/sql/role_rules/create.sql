@@ -9,7 +9,6 @@ id serial primary key,
 description VARCHAR(256)
 );
 
-
 create table item (
 id serial primary key,
 description VARCHAR(256),
@@ -50,5 +49,3 @@ id serial primary key,
 name VARCHAR(256),
 role_id int references role(id)
 );
-
-
