@@ -85,4 +85,5 @@ rules -->  role_rules : ""
 ' Add mark if you like
 'user "1" --> "*" user_group : "A user may be \nin many groups"
 'group "1" --> "0..N" user_group : "A group may \ncontain many users"
+
 @enduml
