@@ -1,4 +1,4 @@
-package ru.job4j.sql.trackerSQL;
+package ru.job4j.sql.trackersql;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +22,6 @@ public class TrackerSQLTest {
         items.add(new Item("add mouse", "need to add mouse to computer", 1333L));
         items.add(new Item("replace toner", "need to change cartrige in printer", 122342L));
         items.add(new Item("fix printer", "need to fix very quickly", 1753L));
-        items.forEach(item -> item.setId(String.valueOf(items.indexOf(item) + 1)));
     }
 
     @Before

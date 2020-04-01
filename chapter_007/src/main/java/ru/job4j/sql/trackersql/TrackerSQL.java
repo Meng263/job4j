@@ -1,4 +1,4 @@
-package ru.job4j.sql.trackerSQL;
+package ru.job4j.sql.trackersql;
 
 import log.UsageLog4j2;
 import org.apache.logging.log4j.LogManager;
@@ -7,10 +7,7 @@ import ru.job4j.tracker.ITracker;
 import ru.job4j.tracker.Item;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,11 +44,11 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     private void createTable() {
         try (var statement = connection.createStatement()) {
-            statement.execute("create table if not exists items (" +
-                    "id serial primary key, " +
-                    "name VARCHAR(256), " +
-                    "description VARCHAR(256), " +
-                    "time TIMESTAMP);");
+            statement.execute("create table if not exists items ("
+                    + "id serial primary key, "
+                    + "name VARCHAR(256), "
+                    + "description VARCHAR(256), "
+                    + "time TIMESTAMP);");
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -60,13 +57,17 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     @Override
     public Item add(Item item) {
         Item result = null;
-        try (var preparedStatement = connection
-                .prepareStatement("insert into items (\"name\", description, \"time\") VALUES(?, ?, ?)")) {
+        final String sql = "insert into items (name, description, time) VALUES(?, ?, ?)";
+        try (var preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setString(2, item.getDecs());
             preparedStatement.setTimestamp(3, Timestamp.from(new Date(item.getTime()).toInstant()));
-            preparedStatement.execute();
-            result = item;
+            preparedStatement.executeUpdate();
+            var resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                item.setId(resultSet.getString(1));
+                result = item;
+            }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
