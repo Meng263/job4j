@@ -83,7 +83,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             preparedStatement.setString(2, item.getDecs());
             preparedStatement.setTimestamp(3, Timestamp.from(new Date(item.getTime()).toInstant()));
             preparedStatement.setInt(4, Integer.parseInt(id));
-            result = preparedStatement.execute();
+            result = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -95,7 +95,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         var result = false;
         try (var preparedStatement = connection.prepareStatement("delete from items where id = ?")) {
             preparedStatement.setInt(1, Integer.parseInt(id));
-            result = preparedStatement.execute();
+            result = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -161,7 +161,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public boolean dropAll() {
         boolean result = false;
         try (var statement = connection.createStatement()) {
-            result = statement.execute("drop table items");
+            result = statement.executeUpdate("drop table items") > 0;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
