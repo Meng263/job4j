@@ -30,9 +30,6 @@ import java.util.Optional;
 public class StoreSQL implements AutoCloseable {
     private final Config config;
     private Connection connect;
-    private final String tempPath = System.getProperty("java.io.tmpdir");
-    private final File xmlFirstFile = new File(tempPath, "xmlFirst.xml");
-    private final File xmlSecondFile = new File(tempPath, "xmlSecond.xml");
 
     public StoreSQL(Config config) {
         this.config = config;
@@ -63,107 +60,16 @@ public class StoreSQL implements AutoCloseable {
         if (!load().isEmpty()) {
             deleteAllRows();
         }
-        var sql = new StringBuilder("INSERT INTO store VALUES ");
-        for (int i = 0; i < size; i++) {
-            sql.append(String.format(" (%d),", i));
-        }
-        sql.replace(sql.length() - 1, sql.length(), ";");
-        try (PreparedStatement insertStatement = connect.prepareStatement(sql.toString())) {
-            insertStatement.execute();
+
+        try (Statement insertStatement = connect.createStatement()) {
+            connect.setAutoCommit(false);
+            for (int i = 0; i < size; i++) {
+                insertStatement.addBatch(String.format("INSERT INTO store VALUES (%d); ", i));
+            }
+            insertStatement.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Get entries from db, and write it to xml file
-     * @throws JAXBException
-     */
-    public void listToXml() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(Entries.class);
-        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.marshal(new Entries(load()), xmlFirstFile);
-    }
-
-    /**
-     * convert xml from format :
-     * <entries>
-     * <entry>
-     * <field>value of field</field>
-     * </entry>
-     * ...
-     * <entry>
-     * <field>value of field</field>
-     * </entry>
-     * </entries>
-     *
-     * to format:
-     * <entries>
-     * <entry field="value of field "/>
-     * ...
-     * <entry field="value of field "/>
-     * </entries>
-     *
-     * @throws TransformerException
-     */
-    public void xmlToXmlByXstl() throws TransformerException {
-        String xsl = "<?xml version=\"1.0\"?>" +
-                "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">" +
-                "<xsl:output indent=\"yes\"/>" +
-                "<xsl:template match=\"/\">" +
-                "<entries>" +
-                "   <xsl:for-each select=\"entries/entry\">" +
-                "       <entry>" +
-                "           <xsl:attribute name=\"field\">" +
-                "               <xsl:value-of select=\"field\"/>" +
-                "           </xsl:attribute>" +
-                "       </entry>" +
-                "   </xsl:for-each>" +
-                " </entries>" +
-                "</xsl:template>" +
-                "</xsl:stylesheet>";
-        try {
-            byte[] xml = Files.readAllBytes(xmlFirstFile.toPath());
-            TransformerFactory factory = TransformerFactory.newInstance();
-
-            Transformer transformer = factory.newTransformer(
-                    new StreamSource(
-                            new ByteArrayInputStream(xsl.getBytes()))
-            );
-            transformer.transform(new StreamSource(
-                            new ByteArrayInputStream(xml)),
-                    new StreamResult(xmlSecondFile));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * parse xml file and evaluate sum of fields value
-     * @return sum
-     */
-    public int parseXmlAndEvaluateSum() {
-        SAXContentHandler contentHandler = new SAXContentHandler();
-        try {
-            byte[] xml = Files.readAllBytes(xmlSecondFile.toPath());
-            SAXParserFactory spf = SAXParserFactory.newInstance();
-            spf.setNamespaceAware(true);
-            SAXParser saxParser = spf.newSAXParser();
-            XMLReader xmlReader = saxParser.getXMLReader();
-            xmlReader.setContentHandler(contentHandler);
-            xmlReader.parse(new InputSource(new ByteArrayInputStream(xml)));
-        } catch (IOException | SAXException | ParserConfigurationException e) {
-            e.printStackTrace();
-        }
-        int result = -1;
-        Optional<Integer> sum = contentHandler.getFields()
-                .stream()
-                .reduce(Integer::sum);
-        if (sum.isPresent()) {
-            result = sum.get();
-        }
-        return result;
     }
 
     private void deleteAllRows() {
