@@ -3,6 +3,12 @@ language: java
 jdk:
   - openjdk11
 
+services:
+  - postgresql
+
+before_install:
+  - psql -c 'create database tracker;' -U postgres
+
 env:
   global:
     CODECOV_TOKEN="c4e65d1f-03e7-4b27-bd5a-fe7a1756c298"
