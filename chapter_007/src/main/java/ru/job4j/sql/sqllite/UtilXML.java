@@ -29,6 +29,7 @@ public class UtilXML {
 
     /**
      * Get entries from db, and write it to xml file
+     *
      * @throws JAXBException
      */
     public void listToXml(List<Entry> entries) throws JAXBException {
@@ -49,7 +50,7 @@ public class UtilXML {
      * <field>value of field</field>
      * </entry>
      * </entries>
-     *
+     * <p>
      * to format:
      * <entries>
      * <entry field="value of field "/>
@@ -60,21 +61,21 @@ public class UtilXML {
      * @throws TransformerException
      */
     public void xmlToXmlByXstl() throws TransformerException {
-        String xsl = "<?xml version=\"1.0\"?>" +
-                "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">" +
-                "<xsl:output indent=\"yes\"/>" +
-                "<xsl:template match=\"/\">" +
-                "<entries>" +
-                "   <xsl:for-each select=\"entries/entry\">" +
-                "       <entry>" +
-                "           <xsl:attribute name=\"field\">" +
-                "               <xsl:value-of select=\"field\"/>" +
-                "           </xsl:attribute>" +
-                "       </entry>" +
-                "   </xsl:for-each>" +
-                " </entries>" +
-                "</xsl:template>" +
-                "</xsl:stylesheet>";
+        String xsl = "<?xml version=\"1.0\"?>"
+                + "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">"
+                + "<xsl:output indent=\"yes\"/>"
+                + "<xsl:template match=\"/\">"
+                + "<entries>"
+                + "   <xsl:for-each select=\"entries/entry\">"
+                + "       <entry>"
+                + "           <xsl:attribute name=\"field\">"
+                + "               <xsl:value-of select=\"field\"/>"
+                + "           </xsl:attribute>"
+                + "       </entry>"
+                + "   </xsl:for-each>"
+                + " </entries>"
+                + "</xsl:template>"
+                + "</xsl:stylesheet>";
         try {
             byte[] xml = Files.readAllBytes(xmlFirstFile.toPath());
             TransformerFactory factory = TransformerFactory.newInstance();
@@ -93,6 +94,7 @@ public class UtilXML {
 
     /**
      * parse xml file and evaluate sum of fields value
+     *
      * @return sum
      */
     public int parseXmlAndEvaluateSum() {
