@@ -6,12 +6,10 @@ import org.apache.logging.log4j.Logger;
 import ru.job4j.tracker.ITracker;
 import ru.job4j.tracker.Item;
 
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Реалзация трекера заявок с хранением их в базе SQL
@@ -21,25 +19,13 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     private Connection connection;
 
-    public TrackerSQL() {
-        init();
+    public TrackerSQL(Connection connection) {
+        this.connection = connection;
         createTable();
     }
 
-    public boolean init() {
-        try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
-        return this.connection != null;
+    public Connection getConnection() {
+        return connection;
     }
 
     private void createTable() {

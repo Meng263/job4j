@@ -1,14 +1,17 @@
 package ru.job4j.sql.trackersql;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
 import ru.job4j.tracker.Item;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -24,28 +27,26 @@ public class TrackerSQLTest {
         items.add(new Item("fix printer", "need to fix very quickly", 1753L));
     }
 
-    @Before
-    public void addItems() {
-        try (TrackerSQL sql = new TrackerSQL()) {
-            items.forEach(sql::add);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    private Connection init() {
+        try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            return DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("username"),
+                    config.getProperty("password")
 
-    @After
-    public void dropAll() {
-        try (TrackerSQL sql = new TrackerSQL()) {
-            sql.dropAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
     }
 
     @Test
     public void checkConnection() {
-        try (TrackerSQL sql = new TrackerSQL()) {
-            assertThat(sql.init(), is(true));
+        try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
+            Assert.assertNotNull(sql.getConnection());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,7 +54,8 @@ public class TrackerSQLTest {
 
     @Test
     public void whenFindAll() {
-        try (TrackerSQL sql = new TrackerSQL()) {
+        try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
+            items.forEach(sql::add);
             List<Item> result = sql.findAll();
             assertThat(result, is(items));
         } catch (SQLException e) {
@@ -63,8 +65,8 @@ public class TrackerSQLTest {
 
     @Test
     public void whenAddItemThanAdded() {
-        try (TrackerSQL sql = new TrackerSQL()) {
-            sql.init();
+        try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
+            items.forEach(sql::add);
             var item = new Item("fix printer", "need to fix very quickly", 5641238454L);
             item.setId("5");
             sql.add(item);
@@ -77,7 +79,8 @@ public class TrackerSQLTest {
 
     @Test
     public void whenFindByName() {
-        try (TrackerSQL sql = new TrackerSQL()) {
+        try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
+            items.forEach(sql::add);
            List<Item> result = sql.findByName("add mouse");
            Item item = items.get(1);
            List<Item> expected = List.of(item);
@@ -89,7 +92,8 @@ public class TrackerSQLTest {
 
     @Test
     public void whenFindById() {
-        try (TrackerSQL sql = new TrackerSQL()) {
+        try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
+            items.forEach(sql::add);
             Item result = sql.findById("2");
             Item item = items.get(1);
             assertThat(result, is(item));
@@ -100,10 +104,12 @@ public class TrackerSQLTest {
 
     @Test
     public void whenDeleteItemThanDeleted() {
-        try (TrackerSQL sql = new TrackerSQL()) {
+        try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
+            items.forEach(sql::add);
             sql.delete("1");
             items.remove(0);
             List<Item> result = sql.findAll();
+            result.sort(Comparator.comparing(Item::getId));
             assertThat(result, is(items));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,7 +118,8 @@ public class TrackerSQLTest {
 
     @Test
     public void whenReplaceThanReplaced() {
-        try (TrackerSQL sql = new TrackerSQL()) {
+        try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
+            items.forEach(sql::add);
             Item item = new Item("replased", "desc for replased", 1245L);
             item.setId("1");
             sql.replace("1", item);
