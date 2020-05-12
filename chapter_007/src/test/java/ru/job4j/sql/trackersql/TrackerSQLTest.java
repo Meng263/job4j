@@ -1,6 +1,7 @@
 package ru.job4j.sql.trackersql;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.tracker.Item;
 
@@ -18,13 +19,9 @@ import static org.junit.Assert.assertThat;
 
 public class TrackerSQLTest {
 
-    private List<Item> items = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
 
     public TrackerSQLTest() {
-        items.add(new Item("fix printer", "need to fix very quickly", 123L));
-        items.add(new Item("add mouse", "need to add mouse to computer", 1333L));
-        items.add(new Item("replace toner", "need to change cartrige in printer", 122342L));
-        items.add(new Item("fix printer", "need to fix very quickly", 1753L));
     }
 
     private Connection init() {
@@ -39,6 +36,15 @@ public class TrackerSQLTest {
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    @Before
+    public void initItems() {
+        items.clear();
+        items.add(new Item("fix printer", "need to fix very quickly", 123L));
+        items.add(new Item("add mouse", "need to add mouse to computer", 1333L));
+        items.add(new Item("replace toner", "need to change cartrige in printer", 122342L));
+        items.add(new Item("fix printer", "need to fix very quickly", 1753L));
     }
 
     @Test
