@@ -97,8 +97,8 @@ public class TrackerSQLTest {
     public void whenFindById() {
         try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
             items.forEach(sql::add);
-            Item result = sql.findById("2");
             Item item = items.get(1);
+            Item result = sql.findById(item.getId());
             assertThat(result, is(item));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -123,11 +123,12 @@ public class TrackerSQLTest {
     public void whenReplaceThanReplaced() {
         try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
             items.forEach(sql::add);
-            Item item = new Item("replased", "desc for replased", 1245L);
-            item.setId("1");
-            sql.replace("1", item);
+            Item itemToReplace = new Item("replased", "desc for replased", 1245L);
+            String idToReplace = sql.findAll().get(0).getId();
+            sql.replace(idToReplace, itemToReplace);
+            itemToReplace.setId(idToReplace);
             List<Item> result = sql.findAll();
-            items.set(0, item);
+            items.set(0, itemToReplace);
             result.sort(Comparator.comparing(Item::getId));
             items.sort(Comparator.comparing(Item::getId));
             assertThat(result, is(items));
