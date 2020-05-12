@@ -72,9 +72,8 @@ public class TrackerSQLTest {
         try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
             items.forEach(sql::add);
             var item = new Item("fix printer", "need to fix very quickly", 5641238454L);
-            sql.add(item);
-            item.setId("5");
-            Item result = sql.findById("5");
+            item = sql.add(item);
+            Item result = sql.findById(item.getId());
             assertThat(result, is(item));
         } catch (SQLException e) {
             e.printStackTrace();
