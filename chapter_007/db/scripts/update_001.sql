@@ -1,6 +1,6 @@
-create table items
+CREATE TABLE items
 (
-    id          serial primary key,
+    id          SERIAL PRIMARY KEY,
     name        VARCHAR(256),
     description VARCHAR(256),
     time        TIMESTAMP

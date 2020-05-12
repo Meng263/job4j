@@ -35,9 +35,7 @@ public class TrackerSQLTest {
             return DriverManager.getConnection(
                     config.getProperty("url"),
                     config.getProperty("username"),
-                    config.getProperty("password")
-
-            );
+                    config.getProperty("password"));
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
@@ -68,8 +66,8 @@ public class TrackerSQLTest {
         try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
             items.forEach(sql::add);
             var item = new Item("fix printer", "need to fix very quickly", 5641238454L);
-            item.setId("5");
             sql.add(item);
+            item.setId("5");
             Item result = sql.findById("5");
             assertThat(result, is(item));
         } catch (SQLException e) {
@@ -81,10 +79,10 @@ public class TrackerSQLTest {
     public void whenFindByName() {
         try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
             items.forEach(sql::add);
-           List<Item> result = sql.findByName("add mouse");
-           Item item = items.get(1);
-           List<Item> expected = List.of(item);
-           assertThat(result, is(expected));
+            List<Item> result = sql.findByName("add mouse");
+            Item item = items.get(1);
+            List<Item> expected = List.of(item);
+            assertThat(result, is(expected));
         } catch (SQLException e) {
             e.printStackTrace();
         }
