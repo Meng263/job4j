@@ -19,7 +19,7 @@ public class SAXContentHandler extends DefaultHandler {
     }
 
     @Override
-    public void startPrefixMapping (String prefix, String uri) {
+    public void startPrefixMapping(String prefix, String uri) {
         System.out.println(prefix);
     }
 
