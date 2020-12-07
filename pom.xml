@@ -57,6 +57,7 @@
         <module>puzzle</module>
         <module>chess</module>
         <module>tictactoe</module>
+        <module>chapter_008</module>
     </modules>
     <build>
         <plugins>
