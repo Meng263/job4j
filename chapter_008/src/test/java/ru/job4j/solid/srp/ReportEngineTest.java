@@ -20,7 +20,7 @@ public class ReportEngineTest {
                 .append(worker.getName()).append(";")
                 .append(worker.getHiredString()).append(";")
                 .append(worker.getFiredString()).append(";")
-                .append(worker.getSalary()).append(";0");
+                .append(worker.getSalary()).append(";");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 }
