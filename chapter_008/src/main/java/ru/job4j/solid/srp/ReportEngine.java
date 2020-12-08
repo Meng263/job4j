@@ -3,7 +3,7 @@ package ru.job4j.solid.srp;
 import java.util.function.Predicate;
 
 public class ReportEngine {
-    private Store store;
+    private final Store store;
 
     public ReportEngine(Store store) {
         this.store = store;
