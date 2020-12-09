@@ -17,7 +17,8 @@ public class ReportEngine {
             text.append(employee.getName()).append(";")
                     .append(employee.getHiredString()).append(";")
                     .append(employee.getFiredString()).append(";")
-                    .append(employee.getSalary()).append(";");
+                    .append(employee.getSalary()).append(";")
+                    .append(System.lineSeparator());
         }
         return text.toString();
     }
