@@ -1,6 +1,7 @@
 package ru.job4j.solid.srp;
 
 import org.junit.Test;
+import ru.job4j.solid.srp.report.ReportEngine;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,20 +22,19 @@ public class ReportEngineTest {
                 new Employee("Yan", LocalDateTime.now(), LocalDateTime.now(), 120),
                 new Employee("Joe", LocalDateTime.now(), LocalDateTime.now(), 90)
         );
-
         workers.forEach(store::add);
         ReportEngine engine = new ReportEngine(store);
 
         StringBuilder expect = new StringBuilder();
-        expect.append("Name; Hired; Fired; Salary;")
-                .append(System.lineSeparator());
+
+        expect.append("<html>\n<body>\n<table style=\"border: 1px solid black\">\n")
+                .append("<tr><th>Name<th><th>Salary<th></tr>\n");
         workers.forEach(employee ->
-                expect.append(employee.getName()).append(";")
-                        .append(employee.getHiredString()).append(";")
-                        .append(employee.getFiredString()).append(";")
-                        .append(employee.getSalary()).append(";")
-                        .append(System.lineSeparator())
+                expect.append(
+                        String.format("<tr> <th> %s </th> <th> $%s </th> </tr>", employee.getName(), employee.getSalary()))
+                .append("\n")
         );
+        expect.append("</table>\n</body>\n</html>");
 
         System.out.println(expect.toString());
         System.out.println(engine.generate(em -> true));

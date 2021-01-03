@@ -1,4 +1,7 @@
-package ru.job4j.solid.srp;
+package ru.job4j.solid.srp.report;
+
+import ru.job4j.solid.srp.Employee;
+import ru.job4j.solid.srp.Store;
 
 import java.util.function.Predicate;
 
