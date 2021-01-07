@@ -2,12 +2,13 @@ package ru.job4j.solid.srp.report;
 
 import ru.job4j.solid.srp.Employee;
 import ru.job4j.solid.srp.Store;
+
 import java.util.function.Predicate;
 
-public class ReportEngine implements Report {
+public class FinancialReport implements Report {
     private final Store store;
 
-    public ReportEngine(Store store) {
+    public FinancialReport(Store store) {
         this.store = store;
     }
 
@@ -20,7 +21,7 @@ public class ReportEngine implements Report {
             text.append(employee.getName()).append(";")
                     .append(employee.getHiredString()).append(";")
                     .append(employee.getFiredString()).append(";")
-                    .append(employee.getSalary()).append(";")
+                    .append(String.format("$%s", employee.getSalary())).append(";")
                     .append(System.lineSeparator());
         }
         return text.toString();
