@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FileParser {
     private String path;
@@ -19,8 +20,13 @@ public class FileParser {
             rd.lines()
                     .map(s -> {
                         String[] split = s.split(";");
-                        return new UserDTO(split[0], split[1]);
+                        UserDTO user = null;
+                        if (split.length >= 2) {
+                            user = new UserDTO(split[0], split[1]);
+                        }
+                        return user;
                     })
+                    .filter(Objects::nonNull)
                     .forEach(users::add);
         } catch (IOException e) {
             e.printStackTrace();
