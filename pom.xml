@@ -57,6 +57,7 @@
         <module>puzzle</module>
         <module>chess</module>
         <module>tictactoe</module>
+        <module>chapter_008</module>
     </modules>
     <build>
         <plugins>
@@ -130,7 +131,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>20.0</version>
+            <version>[24.1.1,)</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
         <dependency>

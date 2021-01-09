@@ -109,7 +109,7 @@ public class TrackerSQLTest {
     public void whenDeleteItemThanDeleted() {
         try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
             items.forEach(sql::add);
-            sql.delete("1");
+            sql.delete(sql.findAll().get(0).getId());
             items.remove(0);
             List<Item> result = sql.findAll();
             result.sort(Comparator.comparing(Item::getId));
