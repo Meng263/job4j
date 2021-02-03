@@ -5,7 +5,7 @@ import ru.job4j.solid.srp.Store;
 
 import java.util.function.Predicate;
 
-public class FinancialReport implements Report {
+public class FinancialReport implements IReport {
     private final Store store;
 
     public FinancialReport(Store store) {
