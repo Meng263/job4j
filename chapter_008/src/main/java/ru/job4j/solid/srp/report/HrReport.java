@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class HrReport implements Report {
+public class HrReport implements IReport {
     private final Store store;
 
     public HrReport(Store store) {

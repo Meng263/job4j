@@ -4,6 +4,6 @@ import ru.job4j.solid.srp.Employee;
 
 import java.util.function.Predicate;
 
-public interface Report {
+public interface IReport {
     String generate(Predicate<Employee> filter);
 }

@@ -1,10 +1,15 @@
 package ru.job4j.solid.srp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 
+@JsonPropertyOrder(alphabetic = true)
 public class Employee {
     private String name;
     private LocalDateTime hired;
@@ -26,6 +31,7 @@ public class Employee {
         this.name = name;
     }
 
+    @JsonIgnore
     public LocalDateTime getHired() {
         return hired;
     }
@@ -34,14 +40,17 @@ public class Employee {
         this.hired = hired;
     }
 
+    @JsonProperty("hired")
     public String getHiredString() {
         return localDateToString(getHired());
     }
 
+    @JsonIgnore
     public LocalDateTime getFired() {
         return fired;
     }
 
+    @JsonProperty("fired")
     public String getFiredString() {
         return localDateToString(getFired());
     }

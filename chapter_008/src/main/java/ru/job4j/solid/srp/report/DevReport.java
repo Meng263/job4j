@@ -6,7 +6,7 @@ import ru.job4j.solid.srp.Store;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class DevReport implements Report {
+public class DevReport implements IReport {
     private final Store store;
 
     public DevReport(Store store) {

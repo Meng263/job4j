@@ -2,9 +2,10 @@ package ru.job4j.solid.srp.report;
 
 import ru.job4j.solid.srp.Employee;
 import ru.job4j.solid.srp.Store;
+
 import java.util.function.Predicate;
 
-public class ReportEngine implements Report {
+public class ReportEngine implements IReport {
     private final Store store;
 
     public ReportEngine(Store store) {
