@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Food {
-    private String name;
-    private Date expiryDate;
-    private Date createDate;
+    private final String name;
+    private final Date createDate;
+    private final Date expiryDate;
     private double price;
     private double discount;
 
-    public Food(String name, Date expiryDate, Date createDate, double price, double discount) {
+    public Food(String name, Date createDate, Date expiryDate, double price, double discount) {
         this.name = name;
         this.expiryDate = expiryDate;
         this.createDate = createDate;
@@ -22,24 +22,12 @@ public class Food {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Date getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
     public Date getCreateDate() {
         return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
     }
 
     public double getPrice() {

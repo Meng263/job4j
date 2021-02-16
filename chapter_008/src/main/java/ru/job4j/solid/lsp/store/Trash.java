@@ -1,6 +1,8 @@
 package ru.job4j.solid.lsp.store;
 
 public class Trash implements Store {
+    private int count = 0;
+
     @Override
     public int capacity() {
         return Integer.MAX_VALUE;
@@ -8,11 +10,12 @@ public class Trash implements Store {
 
     @Override
     public int countProduct() {
-        return 0;
+        return count;
     }
 
     @Override
     public boolean addProduct(Food food) {
+        count++;
         return true;
     }
 }
