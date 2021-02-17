@@ -1,10 +1,12 @@
 package ru.job4j.solid.lsp.store;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 public class Warehouse extends BaseStore {
-    private final List<Food> internalStorage = new ArrayList<>();
+    @Override
+    public boolean accept(Food food, Date currentDate) {
+        return food.getFreshnessCoefficient(currentDate) < 25;
+    }
 
     @Override
     public int capacity() {

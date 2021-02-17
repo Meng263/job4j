@@ -16,7 +16,7 @@ public class ControlQualityTest {
         Trash trash = new Trash();
 
         Date currentDate = getDate("4/1/2021");
-        ControlQuality controlQuality = new ControlQuality(currentDate, warehouse, shop, trash);
+        ControlQuality controlQuality = new ControlQuality(currentDate, List.of(warehouse, shop, trash));
         generateFoods().forEach(controlQuality::moveProduct);
         Assert.assertEquals(trash.countProduct(), 1);
         Assert.assertEquals(shop.countProduct(), 1);

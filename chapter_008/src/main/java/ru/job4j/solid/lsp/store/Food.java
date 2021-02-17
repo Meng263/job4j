@@ -46,6 +46,13 @@ public class Food {
         this.discount = discount;
     }
 
+    int getFreshnessCoefficient(Date currentDate) {
+        long allTerm = expiryDate.getTime() - createDate.getTime();
+        long spendTerm = currentDate.getTime() - createDate.getTime();
+
+        return (int) Math.ceil(((double) spendTerm / allTerm) * 100);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
