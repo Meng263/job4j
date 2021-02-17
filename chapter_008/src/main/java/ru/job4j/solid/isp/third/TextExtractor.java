@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import java.util.Collection;
 
-public class textExtractor implements IDataExtractor {
+public class TextExtractor implements IDataExtractor {
     @Override
     public String extractText() {
         return "Some extracted text";
