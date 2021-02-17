@@ -1,7 +1,7 @@
 package ru.job4j.solid.lsp.parking;
 
-public interface ICar {
+public interface Car {
     String getId();
 
-    Type getType();
+    int size();
 }
