@@ -4,39 +4,55 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ParkingTest {
-    @Test
-    public void whenAddThreeSmallAndTwoTrackThanParkingWithSizeTenShouldBeAlmostFull() {
-        List<Car> cars = List.of(
-                new SmallCar("first_small"),
-                new SmallCar("second_small"),
-                new SmallCar("third_small"),
-                new Track("first_track"),
-                new Track("second_track")
-        );
+    List<Car> cars = List.of(
+            new SmallCar("first_small"),
+            new SmallCar("second_small"),
+            new SmallCar("third_small"),
+            new Track("first_track"),
+            new Track("second_track")
+    );
 
-        Parking parking = new ParkingImp(10);
+    @Test
+    public void whenAddCarsThanGetItShouldBeEquals() {
+        int countSmall = 4;
+        int countTrack = 2;
+        Parking parking = new ParkingImp(countSmall, countTrack);
+        cars.stream().allMatch(parking::addCar);
+
+        assertTrue(parking.getCars().containsAll(cars));
+    }
+
+    @Test
+    public void addCarsAlmostToFullThanCanAddSmallCanNoTrack() {
+        int countSmall = 4;
+        int countTrack = 2;
+        Parking parking = new ParkingImp(countSmall, countTrack);
         boolean resultAdd = cars
                 .stream()
                 .allMatch(parking::addCar);
 
         assertTrue(resultAdd);
+        int availableSizeTrack = parking.getAvailablePlaces(new Tack("another track"));
+        int availableSizeSmall = parking.getAvailablePlaces(new Tack("another track"));
+        assertEquals(availableSizeTrack, 0);
+        assertEquals(availableSizeSmall, 1);
+    }
 
-        Car anotherCar = new SmallCar("another_small_car");
-        Car anotherTrack = new Track("another_track");
-
-        assertEquals(1, parking.getAvailablePlaces(anotherCar));
-        assertEquals(0, parking.getAvailablePlaces(anotherTrack));
-        assertFalse(parking.addCar(anotherTrack));
-
-        assertTrue(parking.getCars().containsAll(cars));
-
-        Car removedCar = parking.removeCarById("first_small");
+    @Test
+    public void whenAddCarAndRemoveThanRemoved() {
+        int countSmall = 4;
+        int countTrack = 2;
+        Parking parking = new ParkingImp(countSmall, countTrack);
+        String smallCarId = "first_small";
+        Car smallCar = new SmallCar(smallCarId);
+        parking.addCar(smallCar);
+        Car removedCar = parking.removeCarById(smallCarId);
         assertEquals(1, removedCar.size());
-        assertEquals("another_small_car", removedCar.getId());
-
+        assertEquals(smallCarId, removedCar.getId());
     }
 
 }
