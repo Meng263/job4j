@@ -6,15 +6,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class MenuElement implements Node<MenuElement>, MenuItem {
-    private final int level;
-    private final MenuElement parent;
+    private int level = 0;
+    private MenuElement parent = null;
     private final List<MenuElement> children = new ArrayList<>();
     private final String name;
-    private final String title;
+    private String title;
 
-    public MenuElement(int level, MenuElement parent, String name) {
-        this.level = level;
-        this.parent = parent;
+    public MenuElement(String name) {
         this.name = name;
         this.title = createTitle();
     }
@@ -24,8 +22,27 @@ public class MenuElement implements Node<MenuElement>, MenuItem {
     }
 
     @Override
+    public MenuElement getParent() {
+        return parent;
+    }
+
+    @Override
+    public List<MenuElement> getChildren() {
+        return children;
+    }
+
+    @Override
     public void exec() {
         System.out.printf("elem with level %d selected!%n", level);
+    }
+
+    void setLevel(int level) {
+        this.level = level;
+    }
+
+    void setParent(MenuElement parent) {
+        this.parent = parent;
+        this.title = createTitle();
     }
 
     @Override
@@ -53,17 +70,9 @@ public class MenuElement implements Node<MenuElement>, MenuItem {
     }
 
     @Override
-    public MenuElement getParent() {
-        return parent;
-    }
-
-    @Override
-    public List<MenuElement> getChildren() {
-        return children;
-    }
-
-    @Override
     public void addChild(MenuElement child) {
+        child.setLevel(this.level + 1);
+        child.setParent(this);
         children.add(child);
     }
 }

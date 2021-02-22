@@ -1,5 +1,7 @@
 package ru.job4j.solid.isp.menu;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.function.Consumer;
 
 public class ConsoleMenuEngine implements MenuEngine {
@@ -8,19 +10,6 @@ public class ConsoleMenuEngine implements MenuEngine {
     public ConsoleMenuEngine(MenuElement root) {
         this.root = root;
     }
-
-//    @Override
-//    public void showMenu() {
-//        Queue<MenuElement> queue = new LinkedList<>(root.getChildren());
-//        System.out.println(root.getTitle());
-//        while (!queue.isEmpty()) {
-//            MenuElement currentElement = queue.poll();
-//            System.out.println(currentElement.getTitle());
-//            List<MenuElement> children = currentElement.getChildren();
-//            queue.addAll(children);
-//        }
-//
-//    }
 
     @Override
     public void showMenu() {
@@ -38,29 +27,26 @@ public class ConsoleMenuEngine implements MenuEngine {
         });
     }
 
-    @Override
-    public void execMenuElementAction() {
+    public MenuElement searchMenuElem(String title) {
+        if (root.getTitle().equals(title)) return root;
 
+        Queue<MenuElement> queue = new LinkedList<>(root.getChildren());
+        MenuElement result = null;
+        while (!queue.isEmpty()) {
+            MenuElement element = queue.poll();
+            if (element.getTitle().equals(title)) {
+                result = element;
+                break;
+            } else {
+                queue.addAll(element.getChildren());
+            }
+
+        }
+        return result;
     }
 
-    public static void main(String[] args) {
-        MenuElement root = new MenuElement(0, null, "Task 1");
-        MenuElement childOne = new MenuElement(1, root, "A");
-        MenuElement childTwo = new MenuElement(1, root, "B");
-        MenuElement grandsonOne = new MenuElement(2, childOne, "a");
-        MenuElement grandsonTwo = new MenuElement(2, childOne, "b");
-        MenuElement grandsonThree = new MenuElement(2, childTwo, "a");
-        MenuElement grandsonFour = new MenuElement(2, childTwo, "b");
-        root.addChild(childOne);
-        root.addChild(childTwo);
-        childOne.addChild(grandsonOne);
-        childOne.addChild(grandsonTwo);
-        childTwo.addChild(grandsonThree);
-        childTwo.addChild(grandsonFour);
-
-        ConsoleMenuEngine engine = new ConsoleMenuEngine(root);
-        engine.showMenu();
-
+    @Override
+    public void execMenuElementAction() {
 
     }
 }

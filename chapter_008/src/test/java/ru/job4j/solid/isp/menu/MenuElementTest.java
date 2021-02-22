@@ -8,7 +8,7 @@ import static org.junit.Assert.assertNull;
 public class MenuElementTest {
     @Test
     public void whenCreateSimpleElementThanCheck() {
-        MenuElement first = new MenuElement(0, null, "Tack 1");
+        MenuElement first = new MenuElement("Tack 1");
         assertNull(first.getParent());
         assertEquals(first.getLevel(), 0);
         assertEquals(first.getName(), "Tack 1");
@@ -16,10 +16,11 @@ public class MenuElementTest {
 
     @Test
     public void whenCreateChildAndParentAndCheck() {
-        MenuElement parent = new MenuElement(0, null, "Task 1");
-        MenuElement child = new MenuElement(1, parent, "1");
-        MenuElement grandson = new MenuElement(2, child, "1");
-
+        MenuElement parent = new MenuElement("Task 1");
+        MenuElement child = new MenuElement("1");
+        MenuElement grandson = new MenuElement("1");
+        parent.addChild(child);
+        child.addChild(grandson);
         assertEquals(child.getTitle(), "Task 1.1");
         assertEquals(grandson.getTitle(), "Task 1.1.1");
     }
