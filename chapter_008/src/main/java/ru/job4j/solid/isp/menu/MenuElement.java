@@ -39,7 +39,7 @@ public class MenuElement implements Node<MenuElement>, MenuItem {
     }
 
     private String createTitle() {
-        MenuElement parentElem = this.parent;
+        MenuElement parentElem = this;
         StringBuilder sb = new StringBuilder(name);
         while (parentElem.getParent() != null) {
             sb.append(String.format(".%s", parentElem.getParent().getName()));
@@ -48,7 +48,7 @@ public class MenuElement implements Node<MenuElement>, MenuItem {
         List<String> split = Arrays.asList(sb.toString().split("\\."));
         Collections.reverse(split);
         return split.stream()
-                .reduce((first, second) -> first + second)
+                .reduce((first, second) -> String.format("%s.%s", first, second))
                 .orElse("");
     }
 
