@@ -22,8 +22,9 @@ public class ParkingTest {
         int countTrack = 2;
         int sizeTrack = 3;
         Parking parking = new ParkingImp(countSmall, countTrack, sizeTrack);
-        cars.stream().allMatch(parking::addCar);
+        boolean allAdded = cars.stream().allMatch(parking::addCar);
 
+        assertTrue(allAdded);
         assertTrue(parking.getCars().containsAll(cars));
     }
 
@@ -39,7 +40,7 @@ public class ParkingTest {
 
         assertTrue(resultAdd);
         int availableSizeTrack = parking.getAvailablePlaces(new Track("another track", sizeTrack));
-        int availableSizeSmall = parking.getAvailablePlaces(new Track("another track", sizeTrack));
+        int availableSizeSmall = parking.getAvailablePlaces(new SmallCar("another small car"));
         assertEquals(availableSizeTrack, 0);
         assertEquals(availableSizeSmall, 1);
     }
@@ -69,5 +70,4 @@ public class ParkingTest {
         assertTrue(added);
         assertEquals(parking.getAvailablePlaces(track), 0);
     }
-
 }
