@@ -60,7 +60,7 @@ public class StartUI {
     }
 
     /**
-     * Запускт программы.
+     * Запуск программы.
      *
      * @param args
      */
