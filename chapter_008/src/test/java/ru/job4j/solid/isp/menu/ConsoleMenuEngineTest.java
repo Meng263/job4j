@@ -50,8 +50,6 @@ public class ConsoleMenuEngineTest {
 
     @Test
     public void whenShowMenuThanCorrectOutput() {
-        initTree();
-
         ConsoleMenuEngine engine = new ConsoleMenuEngine(root);
         engine.showMenu();
 
