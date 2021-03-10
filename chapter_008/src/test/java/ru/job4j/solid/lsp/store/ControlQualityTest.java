@@ -24,6 +24,24 @@ public class ControlQualityTest {
 
     }
 
+    @Test
+    public void resortProductAllFoodShouldBeInTrash() {
+        Warehouse warehouse = new Warehouse();
+        Shop shop = new Shop();
+        Trash trash = new Trash();
+
+        Date currentDate = getDate("4/1/2021");
+        ControlQuality controlQuality = new ControlQuality(currentDate, List.of(warehouse, shop, trash));
+        generateFoods().forEach(controlQuality::moveProduct);
+
+        controlQuality.setCurrentDate(getDate("1/6/2021"));
+        controlQuality.resort();
+
+        Assert.assertEquals(trash.countProduct(), 3);
+        Assert.assertEquals(shop.countProduct(), 0);
+        Assert.assertEquals(warehouse.countProduct(), 0);
+    }
+
     private List<Food> generateFoods() {
         return List.of(
                 new Orange(
