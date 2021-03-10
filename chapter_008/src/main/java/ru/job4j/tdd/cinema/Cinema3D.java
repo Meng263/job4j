@@ -1,14 +1,14 @@
 package ru.job4j.tdd.cinema;
 
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class Cinema3D implements Cinema {
     @Override
     public List<Session> find(Predicate<Session> filter) {
-        return Arrays.asList(new Session3D());
+        return Collections.singletonList(new Session3D());
     }
 
     @Override
@@ -18,5 +18,6 @@ public class Cinema3D implements Cinema {
 
     @Override
     public void add(Session session) {
+
     }
 }
