@@ -50,7 +50,7 @@ public class CinemaTest {
     }
 
     @Ignore
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void buyTicketWrongRow() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
@@ -60,7 +60,7 @@ public class CinemaTest {
     }
 
     @Ignore
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void buyTicketWrongColumn() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
