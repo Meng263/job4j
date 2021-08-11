@@ -1,7 +1,6 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -160,11 +159,10 @@ public class MenuTracker {
             String id = input.ask("Please, enter the ticket ID to delete: ");
             if (tracker.delete(id)) {
                 output.accept("----------- ticket deleted-------------");
-                output.accept("");
             } else {
                 output.accept("------- ticket deleted error ----------");
-                output.accept("");
             }
+            output.accept("");
         }
     }
 
@@ -183,12 +181,11 @@ public class MenuTracker {
             if (tracker.findById(id) != null) {
                 tracker.findById(id).show();
                 output.accept("---------- search completed -------------");
-                output.accept("");
             } else {
                 output.accept("---------- item not found -------------");
                 output.accept("---------- search completed -----------");
-                output.accept("");
             }
+            output.accept("");
         }
 
     }
