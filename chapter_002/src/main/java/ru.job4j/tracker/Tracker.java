@@ -1,7 +1,6 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -28,10 +27,10 @@ public class Tracker implements ITracker {
      * @param id id
      * @return индекс, в случае если элемент не найден, возвращает -1
      */
-    int indexOf(String id) {
+    int indexOf(int id) {
         int result = -1;
         for (int i = 0; i < position; i++) {
-            if ((items.get(i) != null) && (id.equals(items.get(i).getId()))) {
+            if ((items.get(i) != null) && (id == (items.get(i).getId()))) {
                 result = i;
             }
         }
@@ -55,9 +54,9 @@ public class Tracker implements ITracker {
      *
      * @return Уникальный ключ.
      */
-    private String generateId() {
+    private int generateId() {
         final Random random = new Random();
-        return "" + random.nextInt();
+        return random.nextInt();
     }
 
     /**
@@ -67,7 +66,7 @@ public class Tracker implements ITracker {
      * @param item элемент, на который будем менять
      * @return true, если элемент заменен
      */
-    public boolean replace(String id, Item item) {
+    public boolean replace(int id, Item item) {
         int index = indexOf(id);
         if (index != -1) {
             items.set(index, item);
@@ -83,7 +82,7 @@ public class Tracker implements ITracker {
      * @param id идентификатор удаляемого элемента
      * @return true, если удаление произошло
      */
-    public boolean delete(String id) {
+    public boolean delete(int id) {
         boolean result = false;
         int index = indexOf(id);
         if (index != -1) {
@@ -125,10 +124,10 @@ public class Tracker implements ITracker {
      * @param id уникальный идентификатор
      * @return искомый элемент, имеющий уникальный id
      */
-    public Item findById(String id) {
+    public Item findById(int id) {
         Item result = null;
             for (Item item : items) {
-                if (item.getId().equals(id)) {
+                if (item.getId() == id) {
                     result = item;
                 }
             }

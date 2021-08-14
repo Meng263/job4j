@@ -1,34 +1,42 @@
 package ru.job4j.tracker;
 
+import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
-/**
- * Оболочка над массивом
- */
+
+@Entity
+@Table(name = "items")
 public class Item {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
-    private String decs;
-    private long time;
+    private String description;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date time;
 
     /**
      * Констуктор Item
      *
      * @param name имя
-     * @param decs описание
+     * @param description описание
      * @param time время
      */
-    public Item(String name, String decs, long time) {
+    public Item(String name, String description, Date time) {
         this.name = name;
-        this.decs = decs;
+        this.description = description;
         this.time = time;
     }
 
-    public String getId() {
+    public Item() {
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -40,19 +48,19 @@ public class Item {
         this.name = name;
     }
 
-    public String getDecs() {
-        return decs;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDecs(String decs) {
-        this.decs = decs;
+    public void setDescription(String decs) {
+        this.description = decs;
     }
 
-    public long getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
@@ -63,27 +71,23 @@ public class Item {
         System.out.println("------------ ticket --------------");
         System.out.println("Item id " + getId());
         System.out.println("Item name " + getName());
-        System.out.println("Item description " + getDecs());
+        System.out.println("Item description " + getDescription());
         System.out.println();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return time == item.time
-                && Objects.equals(id, item.id)
+        return Objects.equals(id, item.id)
                 && Objects.equals(name, item.name)
-                && Objects.equals(decs, item.decs);
+                && Objects.equals(description, item.description)
+                && Objects.equals(time, item.time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, decs, time);
+        return Objects.hash(id, name, description, time);
     }
 }

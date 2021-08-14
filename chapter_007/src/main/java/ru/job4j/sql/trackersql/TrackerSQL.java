@@ -6,7 +6,10 @@ import org.apache.logging.log4j.Logger;
 import ru.job4j.tracker.ITracker;
 import ru.job4j.tracker.Item;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,12 +49,12 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         final String sql = "INSERT INTO items (name, description, time) VALUES(?, ?, ?);";
         try (var preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, item.getName());
-            preparedStatement.setString(2, item.getDecs());
-            preparedStatement.setTimestamp(3, Timestamp.from(new Date(item.getTime()).toInstant()));
+            preparedStatement.setString(2, item.getDescription());
+            preparedStatement.setTimestamp(3, Timestamp.from(item.getTime().toInstant()));
             preparedStatement.executeUpdate();
             var resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                item.setId(resultSet.getString(1));
+                item.setId(resultSet.getInt(1));
                 result = item;
             }
         } catch (SQLException e) {
@@ -61,14 +64,14 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     }
 
     @Override
-    public boolean replace(String id, Item item) {
+    public boolean replace(int id, Item item) {
         var result = false;
         try (var preparedStatement = connection
                 .prepareStatement("UPDATE items SET name = ?, description = ?, time = ? WHERE id = ?;")) {
             preparedStatement.setString(1, item.getName());
-            preparedStatement.setString(2, item.getDecs());
-            preparedStatement.setTimestamp(3, Timestamp.from(new Date(item.getTime()).toInstant()));
-            preparedStatement.setInt(4, Integer.parseInt(id));
+            preparedStatement.setString(2, item.getDescription());
+            preparedStatement.setTimestamp(3, Timestamp.from(item.getTime().toInstant()));
+            preparedStatement.setInt(4, id);
             result = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -77,10 +80,10 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(int id) {
         var result = false;
         try (var preparedStatement = connection.prepareStatement("DELETE FROM items WHERE id = ?;")) {
-            preparedStatement.setInt(1, Integer.parseInt(id));
+            preparedStatement.setInt(1, id);
             result = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -96,8 +99,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             while (resultSet.next()) {
                 Item item = new Item(resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getTimestamp("time").getTime());
-                item.setId(String.valueOf(resultSet.getInt("id")));
+                        new Date(resultSet.getTimestamp("time").getTime()));
+                item.setId(resultSet.getInt("id"));
                 result.add(item);
             }
             resultSet.close();
@@ -116,8 +119,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             while (resultSet.next()) {
                 Item item = new Item(resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getTimestamp("time").getTime());
-                item.setId(String.valueOf(resultSet.getInt("id")));
+                        new Date(resultSet.getTimestamp("time").getTime()));
+                item.setId(resultSet.getInt("id"));
                 result.add(item);
             }
         } catch (SQLException e) {
@@ -127,16 +130,16 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     }
 
     @Override
-    public Item findById(String id) {
+    public Item findById(int id) {
         Item result = null;
         try (var preparedStatement = connection.prepareStatement("SELECT * FROM items WHERE id = ?;")) {
-            preparedStatement.setInt(1, Integer.parseInt(id));
+            preparedStatement.setInt(1, id);
             var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Item item = new Item(resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getTimestamp("time").getTime());
-                item.setId(String.valueOf(resultSet.getInt("id")));
+                        new Date(resultSet.getTimestamp("time").getTime()));
+                item.setId(resultSet.getInt("id"));
                 result = item;
             }
         } catch (SQLException e) {

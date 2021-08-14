@@ -6,6 +6,7 @@ import ru.job4j.tracker.MenuTracker.FindItemById;
 import ru.job4j.tracker.MenuTracker.FindItemsByName;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -23,13 +24,13 @@ public class MenuTrackerTest {
         Consumer<String> stubOut = outs::add;
 
         String itemName = "test item";
-        tracker.add(new Item(itemName, "item desc", 123L));
-        String id = tracker.findByName(itemName).get(0).getId();
+        tracker.add(new Item(itemName, "item desc", new Date()));
+        int id = tracker.findByName(itemName).get(0).getId();
 
         DeleteItem deleteItem = new MenuTracker(input, tracker, stubOut).new DeleteItem(3, "Delete");
 
         when(input.ask(any(String.class))).thenReturn("3");
-        when(input.ask(any(String.class))).thenReturn(id);
+        when(input.ask(any(String.class))).thenReturn(String.valueOf(id));
 
         deleteItem.execute(input, tracker);
         assertEquals(
@@ -49,13 +50,13 @@ public class MenuTrackerTest {
         Consumer<String> stubOut = outs::add;
 
         String itemName = "test item";
-        tracker.add(new Item(itemName, "item desc", 123L));
-        String id = tracker.findByName(itemName).get(0).getId();
+        tracker.add(new Item(itemName, "item desc", new Date()));
+        int id = tracker.findByName(itemName).get(0).getId();
 
         FindItemById findById = new MenuTracker(input, tracker, stubOut).new FindItemById(4, "Find by id");
 
         when(input.ask(any(String.class))).thenReturn("4");
-        when(input.ask(any(String.class))).thenReturn(id);
+        when(input.ask(any(String.class))).thenReturn(String.valueOf(id));
 
         findById.execute(input, tracker);
         assertEquals(
@@ -75,13 +76,13 @@ public class MenuTrackerTest {
         Consumer<String> stubOut = outs::add;
 
         String itemName = "test item";
-        tracker.add(new Item(itemName, "item desc", 123L));
-        String id = tracker.findByName(itemName).get(0).getId();
+        tracker.add(new Item(itemName, "item desc", new Date()));
+        int id = tracker.findByName(itemName).get(0).getId();
 
         FindItemsByName findByName = new MenuTracker(input, tracker, stubOut).new FindItemsByName(5, "Find by name");
 
         when(input.ask(any(String.class))).thenReturn("5");
-        when(input.ask(any(String.class))).thenReturn(id);
+        when(input.ask(any(String.class))).thenReturn(String.valueOf(id));
 
         findByName.execute(input, tracker);
         assertEquals(
