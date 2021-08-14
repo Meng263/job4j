@@ -18,11 +18,14 @@ public class HibernateRun {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
             Item item = create(new Item("Learn Hibernate", "Hiber desc", new Date()), sf);
             System.out.println(item);
-            item.setName("Learn Hibernate 5.");
+            String newName = "Learn Hibernate 5.";
+            item.setName(newName);
             update(item, sf);
             System.out.println(item);
             Item rsl = findById(item.getId(), sf);
             System.out.println(rsl);
+            List<Item> items = findByName(newName, sf);
+            items.forEach(System.out::println);
             delete(rsl.getId(), sf);
             List<Item> list = findAll(sf);
             for (Item it : list) {
@@ -75,6 +78,17 @@ public class HibernateRun {
         Session session = sf.openSession();
         session.beginTransaction();
         Item result = session.get(Item.class, id);
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
+    public static List<Item> findByName(String name, SessionFactory sf) {
+        Session session = sf.openSession();
+        session.beginTransaction();
+        List result = session.createQuery("from ru.job4j.tracker.Item where name=:name", Item.class)
+                .setParameter("name", name)
+                .list();
         session.getTransaction().commit();
         session.close();
         return result;
