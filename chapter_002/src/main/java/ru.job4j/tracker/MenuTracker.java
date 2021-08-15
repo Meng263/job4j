@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -92,7 +93,7 @@ public class MenuTracker {
             output.accept("------------ Adding a new ticket --------------");
             String name = input.ask("Please, enter the ticket Name :");
             String desc = input.ask("Please, enter the ticket Description :");
-            Item item = new Item(name, desc, System.currentTimeMillis());
+            Item item = new Item(name, desc, new Date(System.currentTimeMillis()));
             tracker.add(item);
             output.accept("--------- New ticket Id is: " + item.getId() + "-----------");
             output.accept("");
@@ -134,8 +135,8 @@ public class MenuTracker {
             String id = input.ask("Please, enter the ticket ID to edit: ");
             String name = input.ask("Please, enter the ticket Name to edit: ");
             String desc = input.ask("Please, enter the ticket Description to edit: ");
-            Item item = new Item(name, desc, System.currentTimeMillis());
-            if (tracker.replace(id, item)) {
+            Item item = new Item(name, desc, new Date(System.currentTimeMillis()));
+            if (tracker.replace(Integer.parseInt(id), item)) {
                 output.accept("------------ ticket edited --------------");
                 System.out.println();
             } else {
@@ -157,7 +158,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             output.accept("------------ delete ticket --------------");
             String id = input.ask("Please, enter the ticket ID to delete: ");
-            if (tracker.delete(id)) {
+            if (tracker.delete(Integer.parseInt(id))) {
                 output.accept("----------- ticket deleted-------------");
             } else {
                 output.accept("------- ticket deleted error ----------");
@@ -177,7 +178,7 @@ public class MenuTracker {
          */
         public void execute(Input input, Tracker tracker) {
             output.accept("---------- find tickets by ID ------------");
-            String id = input.ask("Please, enter the ticket ID to search: ");
+            int id = Integer.parseInt(input.ask("Please, enter the ticket ID to search: "));
             if (tracker.findById(id) != null) {
                 tracker.findById(id).show();
                 output.accept("---------- search completed -------------");

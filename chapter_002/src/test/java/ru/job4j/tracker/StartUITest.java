@@ -1,15 +1,15 @@
 package ru.job4j.tracker;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Date;
 
-import org.junit.After;
-import org.junit.Before;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class StartUITest {
     @Test
@@ -25,9 +25,9 @@ public class StartUITest {
         // создаём Tracker
         Tracker tracker = new Tracker();
         //Напрямую добавляем заявку
-        Item item = tracker.add(new Item("test name", "desc", System.currentTimeMillis()));
+        Item item = tracker.add(new Item("test name", "desc", new Date()));
         //создаём StubInput с последовательностью действий(производим замену заявки)
-        Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "6"});
+        Input input = new StubInput(new String[]{"2", String.valueOf(item.getId()), "test replace", "заменили заявку", "6"});
         // создаём StartUI и вызываем метод init()
         new StartUI(input, tracker, System.out::println).init();
         // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
@@ -37,9 +37,9 @@ public class StartUITest {
     @Test
     public void whenUserDeleteItemThenTrackerHasItemZeroWithNameGelo() {
         Tracker tracker = new Tracker();     // создаём Tracker
-        Item one = tracker.add(new Item("goro", "descOne", System.currentTimeMillis()));
-        Item two = tracker.add(new Item("gelo", "descTwo", System.currentTimeMillis()));
-        Input input = new StubInput(new String[]{"3", one.getId(), "6"});
+        Item one = tracker.add(new Item("goro", "descOne", new Date()));
+        Item two = tracker.add(new Item("gelo", "descTwo", new Date()));
+        Input input = new StubInput(new String[]{"3", String.valueOf(one.getId()), "6"});
         new StartUI(input, tracker, System.out::println).init();
         assertThat(tracker.findAll().get(0).getName(), is("gelo"));
     }
@@ -85,7 +85,7 @@ public class StartUITest {
     @Test
     public void whenShowAll() {
         Tracker tracker = new Tracker();
-        Item one = tracker.add(new Item("goro", "descOne", System.currentTimeMillis()));
+        Item one = tracker.add(new Item("goro", "descOne", new Date()));
         Input input = new StubInput(new String[]{"1", "6"});
         new StartUI(input, tracker, System.out::println).init();
         assertThat(
@@ -101,7 +101,7 @@ public class StartUITest {
                         .append(one.getName())
                         .append(System.lineSeparator())
                         .append("Item description ")
-                        .append(one.getDecs())
+                        .append(one.getDescription())
                         .append(System.lineSeparator())
                         .append(System.lineSeparator())
                         .append("---------- done -----------")
@@ -116,9 +116,9 @@ public class StartUITest {
     @Test
     public void whenFindItemByName() {
         Tracker tracker = new Tracker();
-        Item one = tracker.add(new Item("goro", "descOne", System.currentTimeMillis()));
-        Item two = tracker.add(new Item("gelo", "descTwo", System.currentTimeMillis()));
-        Item three = tracker.add(new Item("goro", "descthree", System.currentTimeMillis()));
+        Item one = tracker.add(new Item("goro", "descOne", new Date()));
+        Item two = tracker.add(new Item("gelo", "descTwo", new Date()));
+        Item three = tracker.add(new Item("goro", "descthree", new Date()));
         Input input = new StubInput(new String[]{"5", "goro", "6"});
         new StartUI(input, tracker, System.out::println).init();
         assertThat(
@@ -136,7 +136,7 @@ public class StartUITest {
                         .append(one.getName())
                         .append(System.lineSeparator())
                         .append("Item description ")
-                        .append(one.getDecs())
+                        .append(one.getDescription())
                         .append(System.lineSeparator())
                         .append(System.lineSeparator())
                         .append("------------ ticket --------------")
@@ -148,7 +148,7 @@ public class StartUITest {
                         .append(three.getName())
                         .append(System.lineSeparator())
                         .append("Item description ")
-                        .append(three.getDecs())
+                        .append(three.getDescription())
                         .append(System.lineSeparator())
                         .append(System.lineSeparator())
                         .append("---------- search completed -------------")
@@ -162,10 +162,10 @@ public class StartUITest {
     @Test
     public void whenFindById() {
         Tracker tracker = new Tracker();
-        Item one = tracker.add(new Item("goro", "descOne", System.currentTimeMillis()));
-        Input input = new StubInput(new String[]{"4", one.getId(), "6"});
-        Item two = tracker.add(new Item("gelo", "descTwo", System.currentTimeMillis()));
-        Item three = tracker.add(new Item("goro", "descthree", System.currentTimeMillis()));
+        Item one = tracker.add(new Item("goro", "descOne", new Date()));
+        Input input = new StubInput(new String[]{"4", String.valueOf(one.getId()), "6"});
+        Item two = tracker.add(new Item("gelo", "descTwo", new Date()));
+        Item three = tracker.add(new Item("goro", "descthree", new Date()));
         new StartUI(input, tracker, System.out::println).init();
         assertThat(
                 new String(out.toByteArray()),
@@ -182,7 +182,7 @@ public class StartUITest {
                         .append(one.getName())
                         .append(System.lineSeparator())
                         .append("Item description ")
-                        .append(one.getDecs())
+                        .append(one.getDescription())
                         .append(System.lineSeparator())
                         .append(System.lineSeparator())
                         .append("---------- search completed -------------")

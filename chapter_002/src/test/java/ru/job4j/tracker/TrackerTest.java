@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -12,7 +13,7 @@ public class TrackerTest {
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
         Tracker tracker = new Tracker();
-        long created = System.currentTimeMillis();
+        Date created = new Date();
         Item item = new Item("test1", "testDescription", created);
         tracker.add(item);
         Item result = tracker.findById(item.getId());
@@ -22,11 +23,11 @@ public class TrackerTest {
     @Test
     public void whenReplaceNameThenReturnNewName() {
         Tracker tracker = new Tracker();
-        Item previous = new Item("test1", "testDescription", 123L);
+        Item previous = new Item("test1", "testDescription", new Date());
         // Добавляем заявку в трекер. Теперь в объект проинициализирован id.
         tracker.add(previous);
         // Создаем новую заявку.
-        Item next = new Item("test2", "testDescription2", 1234L);
+        Item next = new Item("test2", "testDescription2", new Date());
         // Проставляем старый id из previous, который был сгенерирован выше.
         next.setId(previous.getId());
         // Обновляем заявку в трекере.
@@ -38,9 +39,9 @@ public class TrackerTest {
     @Test
     public void whenDeleteItemThenDeleted() {
         Tracker old = new Tracker();
-        Item first = new Item("jora", "testDesk1", 123);
-        Item second = new Item("goro", "testDesk2", 124);
-        Item third = new Item("gelo", "testDesk3", 126);
+        Item first = new Item("jora", "testDesk1", new Date());
+        Item second = new Item("goro", "testDesk2", new Date());
+        Item third = new Item("gelo", "testDesk3", new Date());
         old.add(first);
         old.add(second);
         old.add(third);
@@ -52,13 +53,13 @@ public class TrackerTest {
     @Test
     public void indexOf() {
         Tracker tracker = new Tracker();
-        Item first = new Item("Jora", "testdesk1", 123);
-        Item second = new Item("Goro", "testdesk2", 124);
+        Item first = new Item("Jora", "testdesk1", new Date());
+        Item second = new Item("Goro", "testdesk2", new Date());
         tracker.add(first);
         tracker.add(second);
-        String thirdId = tracker.add(new Item("Gelo", "test", 122)).getId();
-        String firstId = first.getId();
-        String secondId = second.getId();
+        int thirdId = tracker.add(new Item("Gelo", "test", new Date())).getId();
+        int firstId = first.getId();
+        int secondId = second.getId();
         assertThat(0, is(tracker.indexOf(firstId)));
         assertThat(1, is(tracker.indexOf(secondId)));
         assertThat(2, is(tracker.indexOf(thirdId)));
@@ -67,9 +68,9 @@ public class TrackerTest {
     @Test
     public void findAll() {
         Tracker old = new Tracker();
-        Item first = new Item("jora", "testDesk1", 123);
-        Item second = new Item("goro", "testDesk2", 124);
-        Item third = new Item("gelo", "testDesk3", 126);
+        Item first = new Item("jora", "testDesk1", new Date());
+        Item second = new Item("goro", "testDesk2", new Date());
+        Item third = new Item("gelo", "testDesk3", new Date());
         old.add(first);
         old.add(second);
         old.add(third);
@@ -85,9 +86,9 @@ public class TrackerTest {
     @Test
     public void findByName() {
         Tracker old = new Tracker();
-        Item first = new Item("jora", "testDesk1", 123);
-        Item second = new Item("goro", "testDesk2", 124);
-        Item third = new Item("goro", "testDesk3", 126);
+        Item first = new Item("jora", "testDesk1", new Date());
+        Item second = new Item("goro", "testDesk2", new Date());
+        Item third = new Item("goro", "testDesk3", new Date());
         old.add(first);
         old.add(second);
         old.add(third);

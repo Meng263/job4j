@@ -9,10 +9,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -41,10 +38,10 @@ public class TrackerSQLTest {
     @Before
     public void initItems() {
         items.clear();
-        items.add(new Item("fix printer", "need to fix very quickly", 123L));
-        items.add(new Item("add mouse", "need to add mouse to computer", 1333L));
-        items.add(new Item("replace toner", "need to change cartrige in printer", 122342L));
-        items.add(new Item("fix printer", "need to fix very quickly", 1753L));
+        items.add(new Item("fix printer", "need to fix very quickly", new Date()));
+        items.add(new Item("add mouse", "need to add mouse to computer", new Date()));
+        items.add(new Item("replace toner", "need to change cartrige in printer", new Date()));
+        items.add(new Item("fix printer", "need to fix very quickly", new Date()));
     }
 
     @Test
@@ -71,7 +68,7 @@ public class TrackerSQLTest {
     public void whenAddItemThanAdded() {
         try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
             items.forEach(sql::add);
-            var item = new Item("fix printer", "need to fix very quickly", 5641238454L);
+            var item = new Item("fix printer", "need to fix very quickly", new Date());
             item = sql.add(item);
             Item result = sql.findById(item.getId());
             assertThat(result, is(item));
@@ -123,8 +120,8 @@ public class TrackerSQLTest {
     public void whenReplaceThanReplaced() {
         try (TrackerSQL sql = new TrackerSQL(ConnectionUtil.createConnectionRollback(this.init()))) {
             items.forEach(sql::add);
-            Item itemToReplace = new Item("replased", "desc for replased", 1245L);
-            String idToReplace = sql.findAll().get(0).getId();
+            Item itemToReplace = new Item("replased", "desc for replased", new Date(1245L));
+            int idToReplace = sql.findAll().get(0).getId();
             sql.replace(idToReplace, itemToReplace);
             itemToReplace.setId(idToReplace);
             List<Item> result = sql.findAll();
