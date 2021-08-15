@@ -9,6 +9,7 @@ import ru.job4j.tracker.Item;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class HibernateRun {
     public static void main(String[] args) {
@@ -16,22 +17,15 @@ public class HibernateRun {
                 .configure().build();
         try {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-            Item item = create(new Item("Learn Hibernate", "Hiber desc", new Date()), sf);
-            System.out.println(item);
-            String newName = "Learn Hibernate 5.";
-            item.setName(newName);
-            update(item, sf);
-            System.out.println(item);
-            Item rsl = findById(item.getId(), sf);
-            System.out.println(rsl);
-            List<Item> items = findByName(newName, sf);
-            items.forEach(System.out::println);
-            delete(rsl.getId(), sf);
+            IntStream.range(0, 10)
+                    .forEach(integer ->
+                            create(new Item("Item " + integer, "description" + integer, new Date()), sf));
+
             List<Item> list = findAll(sf);
             for (Item it : list) {
                 System.out.println(it);
             }
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
